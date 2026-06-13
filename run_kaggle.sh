@@ -23,7 +23,7 @@ LEARNING_RATE="${LEARNING_RATE:-2e-4}"
 USE_4BIT="${USE_4BIT:-1}"
 MIN_CONFIDENCE="${MIN_CONFIDENCE:-0.0}"
 REPO_URL="${REPO_URL:-https://github.com/IamCauVang/Exact2026.git}"
-KERNEL="${KERNEL:-iamcauvang/exact}"
+KERNEL="${KERNEL:-iamcauvang/exactv2-cauvang}"
 
 BUILD_DIR=".kaggle_build"
 OUT_DIR="kaggle_outputs"
