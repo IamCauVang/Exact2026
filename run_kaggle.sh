@@ -94,7 +94,7 @@ git push
 echo "[$(elapsed)] [2/5] Build temporary Kaggle job folder"
 rm -rf "$BUILD_DIR"
 mkdir -p "$BUILD_DIR"
-cp kaggle_job/runner.py "$BUILD_DIR/runner.ipynb"
+cp kaggle_job/runner.ipynb "$BUILD_DIR/runner.ipynb"
 cp kaggle_job/kernel-metadata.json "$BUILD_DIR/kernel-metadata.json"
 
 TASK_FROM_SHELL="$TASK" \
