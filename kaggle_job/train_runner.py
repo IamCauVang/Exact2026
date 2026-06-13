@@ -10,7 +10,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
-REPO_URL = os.environ.get("REPO_URL", "https://github.com/Huoijo/AI_Logic_EXACT.git")
+REPO_URL = os.environ.get("REPO_URL", "https://github.com/IamCauVang/Exact2026.git")
 MODEL_NAME = os.environ.get("MODEL_NAME", "Qwen/Qwen2.5-7B-Instruct")
 DATASET = os.environ.get("DATASET", "data/full_data.json")
 SFT_DIR = os.environ.get("SFT_DIR", "data/sft_nl2fol")
@@ -30,7 +30,7 @@ MAX_VALID_SAMPLES = os.environ.get("MAX_VALID_SAMPLES", "0")
 NO_SILVER_OPTIONS = os.environ.get("NO_SILVER_OPTIONS", "0")
 
 WORK_DIR = Path("/kaggle/working")
-REPO_DIR = WORK_DIR / "AI_Logic_EXACT"
+REPO_DIR = WORK_DIR / "Exact2026"
 TRAIN_OUT = WORK_DIR / "train_outputs"
 ZIP_PATH = WORK_DIR / "exact_train_artifacts.zip"
 

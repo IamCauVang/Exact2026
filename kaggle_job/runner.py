@@ -3,7 +3,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
-REPO_URL = os.environ.get("REPO_URL", "https://github.com/Huoijo/AI_Logic_EXACT.git")
+REPO_URL = os.environ.get("REPO_URL", "https://github.com/IamCauVang/Exact2026.git")
 TASK = os.environ.get("TASK", "batch")
 INPUT_MODE = os.environ.get("INPUT_MODE", "auto")
 BATCH_SIZE = os.environ.get("BATCH_SIZE", "0")
@@ -27,7 +27,7 @@ USE_4BIT = os.environ.get("USE_4BIT", "1")
 MIN_CONFIDENCE = os.environ.get("MIN_CONFIDENCE", "0.0")
 
 WORK_DIR = Path("/kaggle/working")
-REPO_DIR = WORK_DIR / "AI_Logic_EXACT"
+REPO_DIR = WORK_DIR / "Exact2026"
 OUT_DIR = WORK_DIR / "outputs"
 ZIP_PATH = WORK_DIR / "exact_artifacts.zip"
 
