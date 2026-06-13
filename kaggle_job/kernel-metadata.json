@@ -1,6 +1,6 @@
 {
   "id": "iamcauvang",
-  "code_file": "runner.py",
+  "code_file": "scripts/kaggle_core_runner.py",
   "language": "python",
   "kernel_type": "script",
   "is_private": "false",
