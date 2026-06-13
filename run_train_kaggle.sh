@@ -14,7 +14,7 @@ SFT_DIR="${SFT_DIR:-data/sft_nl2fol}"
 OUTPUT_DIR="${OUTPUT_DIR:-artifacts/lora_qwen25_7b_nl2fol}"
 RUN_ID="${RUN_ID:-$(date +%Y%m%d_%H%M%S)}"
 REPO_URL="${REPO_URL:-https://github.com/IamCauVang/Exact2026.git}"
-KERNEL="${KERNEL:-iamcauvang/exact2026}"
+KERNEL="${KERNEL:-iamcauvang/exact}"
 
 MAX_SEQ_LENGTH="${MAX_SEQ_LENGTH:-2048}"
 EPOCHS="${EPOCHS:-2}"
