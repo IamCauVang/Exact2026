@@ -1,7 +1,7 @@
 {
   "id": "iamcauvang/exact2026",
   "title": "exact2026",
-  "code_file": "scripts/kaggle_core_runner.py",
+  "code_file": "runner.py",
   "language": "python",
   "kernel_type": "script",
   "is_private": "false",
