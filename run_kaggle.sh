@@ -94,7 +94,7 @@ git push
 echo "[$(elapsed)] [2/5] Build temporary Kaggle job folder"
 rm -rf "$BUILD_DIR"
 mkdir -p "$BUILD_DIR"
-cp kaggle_job/runner.ipynb "$BUILD_DIR/runner.ipynb"
+cp kaggle_job/runner.py "$BUILD_DIR/runner.py"
 cp kaggle_job/kernel-metadata.json "$BUILD_DIR/kernel-metadata.json"
 
 TASK_FROM_SHELL="$TASK" \
@@ -123,7 +123,7 @@ KERNEL="$KERNEL" \
 python - <<'PY_PATCH'
 from pathlib import Path
 import json, os, re
-runner = Path('.kaggle_build/runner.ipynb')
+runner = Path('.kaggle_build/runner.py')
 s = runner.read_text()
 replacements = {
   'REPO_URL': os.environ.get('REPO_URL',''),
@@ -157,7 +157,7 @@ runner.write_text(s)
 meta_path = Path('.kaggle_build/kernel-metadata.json')
 meta = json.loads(meta_path.read_text())
 meta['id'] = os.environ.get('KERNEL', meta.get('id',''))
-meta['code_file'] = 'runner.ipynb'
+meta['code_file'] = 'runner.py'
 meta.setdefault('is_private','false')
 meta_path.write_text(json.dumps(meta, indent=2))
 PY_PATCH
