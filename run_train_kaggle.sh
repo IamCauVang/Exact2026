@@ -127,7 +127,7 @@ git push
 echo "[$(elapsed)] [2/5] Build temporary Kaggle training job folder"
 rm -rf "$BUILD_DIR"
 mkdir -p "$BUILD_DIR"
-cp kaggle_job/train_runner.py "$BUILD_DIR/runner.py"
+cp kaggle_job/train_runner.py "$BUILD_DIR/runner.ipynb"
 cp kaggle_job/kernel-metadata.json "$BUILD_DIR/kernel-metadata.json"
 
 MODEL_NAME="$MODEL_NAME" DATASET="$DATASET" SFT_DIR="$SFT_DIR" OUTPUT_DIR="$OUTPUT_DIR" RUN_ID="$RUN_ID" \
@@ -139,7 +139,7 @@ python - <<'PY_PATCH'
 from pathlib import Path
 import json, os, re
 
-runner = Path('.kaggle_train_build/runner.py')
+runner = Path('.kaggle_train_build/runner.ipynb')
 s = runner.read_text()
 keys = [
     'REPO_URL','MODEL_NAME','DATASET','SFT_DIR','OUTPUT_DIR','RUN_ID','MAX_SEQ_LENGTH','EPOCHS',
@@ -155,7 +155,7 @@ runner.write_text(s)
 
 meta = json.loads(Path('.kaggle_train_build/kernel-metadata.json').read_text())
 meta['id'] = os.environ.get('KERNEL', meta.get('id', ''))
-meta['code_file'] = 'runner.py'
+meta['code_file'] = 'runner.ipynb'
 meta['enable_gpu'] = 'true'
 meta['enable_internet'] = 'true'
 meta.setdefault('is_private', 'false')
