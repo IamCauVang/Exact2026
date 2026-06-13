@@ -1,9 +1,9 @@
 {
   "id": "iamcauvang/exact",
   "title": "exact",
-  "code_file": "runner.py",
+  "code_file": "runner.ipynb",
   "language": "python",
-  "kernel_type": "script",
+  "kernel_type": "notebook",
   "is_private": "false",
   "enable_gpu": true,
   "enable_internet": true,
