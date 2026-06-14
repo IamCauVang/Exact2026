@@ -165,19 +165,87 @@ def best_predicate_from_text(text: str, kb: KnowledgeBase, threshold: int = 55) 
     return best if best_score >= threshold else None
 
 
+def _norm_entity_text(s: str) -> str:
+    s = s or ""
+    s = s.replace("_", " ")
+    s = re.sub(r"[^A-Za-z0-9]+", " ", s)
+    s = re.sub(r"\s+", " ", s)
+    return s.strip().lower()
+
+
+def _constant_aliases(c: str) -> set[str]:
+    raw = c or ""
+    n = _norm_entity_text(raw)
+    aliases = {n}
+
+    aliases.add(_norm_entity_text(raw.replace("_", " ")))
+
+    parts = n.split()
+
+    title_prefixes = {
+        "dr", "prof", "professor", "mr", "mrs", "ms", "miss"
+    }
+
+    if len(parts) >= 2 and parts[0] in title_prefixes:
+        rest = " ".join(parts[1:])
+        aliases.add(rest)
+        aliases.add(f"{parts[0]} {rest}")
+
+    return {a for a in aliases if a}
+
+
+def _contains_token_phrase(text_norm: str, phrase_norm: str) -> bool:
+    if not phrase_norm:
+        return False
+
+    return re.search(
+        rf"(?<![A-Za-z0-9]){re.escape(phrase_norm)}(?![A-Za-z0-9])",
+        text_norm,
+    ) is not None
+
+
 def best_constant_from_text(text: str, kb: KnowledgeBase) -> str | None:
+    text_norm = _norm_entity_text(text)
+
+    if not text_norm:
+        return None
+
     best = None
-    best_score = 0.0
-    text_l = text.lower()
+    best_score = 0
+
     for c in _real_constants(kb):
-        score = fuzz.partial_ratio(c.lower(), text_l)
-        # Professor John / Dr. John should map to John if John is the KB constant.
-        if c.lower() in text_l:
-            score = max(score, 100)
-        if score > best_score:
-            best = c
-            best_score = score
-    return best if best_score >= 75 else None
+        c_norm = _norm_entity_text(c)
+        aliases = _constant_aliases(c)
+
+        for alias in aliases:
+            if len(alias) <= 1:
+                continue
+
+            if _contains_token_phrase(text_norm, alias):
+                score = 1000 + len(alias) + len(c_norm)
+
+                if score > best_score:
+                    best = c
+                    best_score = score
+
+    if best is not None:
+        return best
+
+    for c in _real_constants(kb):
+        c_norm = _norm_entity_text(c)
+        aliases = _constant_aliases(c)
+
+        for alias in aliases:
+            if len(alias) < 5:
+                continue
+
+            score = fuzz.token_set_ratio(alias, text_norm)
+
+            if score > best_score:
+                best = c
+                best_score = score
+
+    return best if best_score >= 92 else None
 
 
 def _is_negated(text: str) -> bool:
