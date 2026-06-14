@@ -142,19 +142,44 @@ def parse_conjunction(s: str) -> list[Atom]:
     s = strip_outer_parens(s)
     return [parse_atom(p) for p in split_top_level(s, "&")]
 
+def unwrap_all_quantifiers(text: str) -> tuple[str, str | None]:
+    body = text
+    quant: str | None = None
+
+    while True:
+        next_body, next_quant = unwrap_quantifier(body)
+
+        if next_quant not in {"forall", "exists"}:
+            break
+
+        if next_quant == "exists":
+            quant = "exists"
+        elif quant is None:
+            quant = "forall"
+
+        body = strip_outer_parens(next_body)
+
+    return body, quant
+
 def parse_fol_statement(text: str, source_id: int) -> tuple[list[Atom], list[Rule]]:
     text = repair_fol_string(text)
-    body, quant = unwrap_quantifier(text)
+
+    body, quant = unwrap_all_quantifiers(text)
     body = strip_outer_parens(body)
+
     facts: list[Atom] = []
     rules: list[Rule] = []
-    if "->" in body:
-        left, right = split_top_level(body, "->")[:2]
+
+    parts = split_top_level(body, "->")
+
+    if len(parts) >= 2:
+        left, right = parts[:2]
         ants = parse_conjunction(left)
         cons = parse_atom(right)
         rules.append(Rule(ants, cons, source_id, text))
     else:
         atoms = parse_conjunction(body) if "&" in body else [parse_atom(body)]
+
         for atom in atoms:
             if quant == "forall" and atom.variables:
                 rules.append(Rule([], atom, source_id, text))
@@ -163,6 +188,7 @@ def parse_fol_statement(text: str, source_id: int) -> tuple[list[Atom], list[Rul
                 facts.append(atom.substitute(env))
             else:
                 facts.append(atom)
+
     return facts, rules
 
 def parse_fol_premises(premises_fol: list[str], premises_nl: list[str] | None = None) -> KnowledgeBase:
