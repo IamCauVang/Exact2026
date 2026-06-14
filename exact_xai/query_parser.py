@@ -676,17 +676,26 @@ def postprocess_parsed_question(question: str, kb: KnowledgeBase, parsed: Parsed
 
     fixed: dict[str, str] = {}
     context_const = best_constant_from_text(question, kb)
+
     for label, option_text in choices_text.items():
         model_value = normalize_logic_value(parsed.choices.get(label, ""))
-        option_is_conditional = _is_explicit_conditional(option_text)
         option_const = best_constant_from_text(option_text, kb) or context_const
 
-        special = _special_entity_option_atom(option_text, kb, context_const)
+        conditional = _parse_conditional_as_forall(option_text, kb)
+        if conditional:
+            fixed[label] = collapse_repeated_suffixes(conditional)
 
+            if model_value != conditional:
+                post_warnings.append(f"option_{label}_conditional_reparsed")
+
+            continue
+
+        special = _special_entity_option_atom(option_text, kb, context_const)
         if special:
             model_value_canon = _canonicalize_atom_predicate(model_value, kb)
             special_canon = _canonicalize_atom_predicate(special, kb)
 
+            # Nếu LLM đã sinh ra atom có predicate tồn tại trong KB thì giữ nó.
             if _atom_predicate(model_value_canon) in set(predicates(kb)):
                 fixed[label] = collapse_repeated_suffixes(model_value_canon)
             else:
@@ -697,21 +706,23 @@ def postprocess_parsed_question(question: str, kb: KnowledgeBase, parsed: Parsed
 
             continue
 
-        # Factual entity options should be atoms. ForAll here is usually a hallucinated rule.
         if option_const or model_value.lower().startswith("forall") or "->" in model_value:
             atom = _phrase_to_atom(option_text, kb, context_const)
             if atom:
+                atom = _canonicalize_atom_predicate(atom, kb)
                 fixed[label] = collapse_repeated_suffixes(atom)
+
                 if model_value and model_value != atom:
                     post_warnings.append(f"option_{label}_entity_atom_postprocessed")
+
                 continue
 
-        # Last fallback: keep model value if it is atom-like; otherwise use rule-based atom.
-        if model_value and "->" not in model_value:
-            fixed[label] = collapse_repeated_suffixes(model_value)
+        if model_value and "(" in model_value:
+            fixed[label] = collapse_repeated_suffixes(_canonicalize_atom_predicate(model_value, kb))
         else:
             atom = _phrase_to_atom(option_text, kb, context_const)
-            fixed[label] = collapse_repeated_suffixes(atom) if atom else collapse_repeated_suffixes(model_value or _snake(option_text))
+            atom = _canonicalize_atom_predicate(atom, kb) if atom else None
+            fixed[label] = collapse_repeated_suffixes(atom) if atom else collapse_repeated_suffixes(_snake(option_text))
             post_warnings.append(f"option_{label}_fallback_atom")
 
     parsed.choices = fixed
