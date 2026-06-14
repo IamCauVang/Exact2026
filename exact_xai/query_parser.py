@@ -682,24 +682,18 @@ def postprocess_parsed_question(question: str, kb: KnowledgeBase, parsed: Parsed
         option_const = best_constant_from_text(option_text, kb) or context_const
 
         special = _special_entity_option_atom(option_text, kb, context_const)
+
         if special:
-            fixed[label] = special
-            if model_value and model_value != special:
-                post_warnings.append(f"option_{label}_entity_atom_postprocessed")
-            continue
+            model_value_canon = _canonicalize_atom_predicate(model_value, kb)
+            special_canon = _canonicalize_atom_predicate(special, kb)
 
-        if option_is_conditional:
-            fallback = _parse_conditional_as_forall(option_text, kb)
-
-            if fallback:
-                fixed[label] = collapse_repeated_suffixes(fallback)
-                if model_value and model_value != fallback:
-                    post_warnings.append(f"option_{label}_conditional_reparsed")
-            elif "->" in model_value and (model_value.lower().startswith("forall") or "(" in model_value):
-                fixed[label] = collapse_repeated_suffixes(model_value)
+            if _atom_predicate(model_value_canon) in set(predicates(kb)):
+                fixed[label] = collapse_repeated_suffixes(model_value_canon)
             else:
-                fixed[label] = collapse_repeated_suffixes(model_value or _snake(option_text))
-                post_warnings.append(f"option_{label}_conditional_fallback_failed")
+                fixed[label] = collapse_repeated_suffixes(special_canon)
+
+            if model_value and fixed[label] != model_value:
+                post_warnings.append(f"option_{label}_entity_atom_postprocessed")
 
             continue
 
@@ -738,3 +732,45 @@ def parsed_target_to_atom(s: str | None) -> Atom | None:
         return parse_atom(q)
     except Exception:
         return None
+
+def _atom_predicate(atom: str | None) -> str | None:
+    if not atom or "(" not in atom:
+        return None
+    return atom.split("(", 1)[0].strip().replace("not ", "").strip()
+
+
+def _canonicalize_atom_predicate(atom: str | None, kb: KnowledgeBase) -> str:
+    if not atom or "(" not in atom:
+        return atom or ""
+
+    neg = atom.strip().startswith("not ")
+    raw = atom.strip()[4:].strip() if neg else atom.strip()
+
+    pred, rest = raw.split("(", 1)
+    pred = pred.strip()
+    rest = "(" + rest
+
+    available = set(predicates(kb))
+
+    aliases = {
+        "qualifies_for_graduate_fellowship_program": "qualifies_for_fellowship",
+        "qualify_for_graduate_fellowship_program": "qualifies_for_fellowship",
+        "qualified_for_graduate_fellowship_program": "qualifies_for_fellowship",
+        "qualifies_for_university_scholarship": "qualifies_for_scholarship",
+        "qualified_for_university_scholarship": "qualifies_for_scholarship",
+    }
+
+    mapped = aliases.get(pred, pred)
+
+    if mapped not in available and pred.startswith("qualifies_for_"):
+        simplified = (
+            pred
+            .replace("_graduate", "")
+            .replace("_program", "")
+            .replace("_university", "")
+        )
+        if simplified in available:
+            mapped = simplified
+
+    out = mapped + rest
+    return f"not {out}" if neg else out
