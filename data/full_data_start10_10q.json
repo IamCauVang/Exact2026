@@ -1,0 +1,258 @@
+[
+  {
+    "idx": [
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, taught_min_five_years(x) → eligible_extended_library(x))",
+      "ForAll(x, (eligible_extended_library(x) ∧ has_publications(x)) → can_access_restricted_archives(x))",
+      "ForAll(x, (can_access_restricted_archives(x) ∧ completed_ethics_training(x)) → can_submit_research_proposals(x))",
+      "ForAll(x, (can_submit_research_proposals(x) ∧ has_departmental_endorsement(x)) → can_apply_collaborative_projects(x))",
+      "taught_min_five_years(John)",
+      "has_publications(John)",
+      "completed_ethics_training(John)",
+      "has_departmental_endorsement(John)"
+    ],
+    "premises-NL": [
+      "If a faculty member has taught for at least 5 years, they are eligible for extended library access.",
+      "If someone has extended library access and has published at least one academic paper, they can access restricted archives.",
+      "If someone can access restricted archives and has completed research ethics training, they can submit research proposals.",
+      "If someone can submit research proposals and has a departmental endorsement, they can apply for collaborative research projects.",
+      "Professor John has taught for at least 5 years.",
+      "Professor John has published at least one academic paper.",
+      "Professor John has completed research ethics training.",
+      "Professor John has a departmental endorsement."
+    ],
+    "questions": [
+      "Based on the premises, what is the correct conclusion about Professor John?\nA. He can access restricted archives but cannot submit proposals\nB. He can apply for collaborative research projects\nC. He needs more publications to access archives\nD. He is eligible for extended library access but cannot apply for projects",
+      "Does the logical chain demonstrate that Professor John meets all requirements for collaborative research projects?"
+    ],
+    "answers": [
+      "B",
+      "Yes"
+    ],
+    "explanation": [
+      "Professor John has taught for at least 5 years (Premise 5), so he is eligible for extended library access (by Premise 1). Because he has at least one publication (Premise 6), he can access restricted archives (Premise 2). With completed ethics training (Premise 7), he can submit research proposals (Premise 3), and with departmental endorsement (Premise 8), he can apply for collaborative research projects (Premise 4). Hence, option B is logically valid.",
+      "Yes, all conditions in the logical sequence are fulfilled in order: teaching experience leads to extended access, which, with a publication, allows access to archives. Adding ethics training enables proposal submission, and endorsement completes the criteria for collaborative project application. The reasoning is valid and consistent."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        2,
+        4,
+        5,
+        6,
+        7
+      ],
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, (passed_vehicle_inspection(x) ∧ has_appropriate_license(x)) → can_transport_standard_goods(x))",
+      "ForAll(x, (can_transport_standard_goods(x) ∧ completed_hazmat_training(x) ∧ received_safety_endorsement(x)) → can_transport_hazardous_materials(x))",
+      "ForAll(x, (can_transport_hazardous_materials(x) ∧ has_interstate_permit(x)) → can_cross_state_lines(x))",
+      "passed_vehicle_inspection(John)",
+      "has_appropriate_license(John)",
+      "completed_hazmat_training(John)",
+      "¬received_safety_endorsement(John)",
+      "has_interstate_permit(John)"
+    ],
+    "premises-NL": [
+      "If a driver has passed vehicle inspection and has the appropriate license, they can transport standard goods.",
+      "If a driver can transport standard goods and has completed hazmat training and received a safety endorsement, they can transport hazardous materials.",
+      "If a driver can transport hazardous materials and has an interstate permit, they can cross state lines with hazardous cargo.",
+      "John has passed vehicle inspection.",
+      "John has the appropriate license.",
+      "John has completed hazmat training.",
+      "John has not received a safety endorsement.",
+      "John has an interstate permit."
+    ],
+    "questions": [
+      "Based on the premises, what can we conclude about John’s qualifications?\nA. John can transport hazardous materials but cannot cross state lines\nB. John can cross state lines with hazardous cargo\nC. John cannot transport hazardous materials\nD. John is not qualified to transport any kind of goods",
+      "Does John meet all requirements to cross state lines with hazardous cargo, according to the premises?"
+    ],
+    "answers": [
+      "C",
+      "No"
+    ],
+    "explanation": [
+      "Premises 4 and 5 confirm John passed vehicle inspection and has a license, satisfying premise 1 for transporting standard goods. However, premise 6 confirms hazmat training, but premise 7 states he lacks a safety endorsement, so premise 2 prevents him from transporting hazardous materials, supporting option C. Option A is false because he cannot transport hazardous materials. Option B is false because he cannot cross state lines without hazardous material capability. Option D is false because he can transport standard goods.",
+      "Crossing state lines with hazardous cargo per premise 3 requires the ability to transport hazardous materials and an interstate permit. Premise 2 requires standard goods capability, hazmat training, and a safety endorsement for hazardous materials. Premises 1, 4, 5, and 6 confirm standard goods and training, and premise 8 confirms the permit, but premise 7’s lack of endorsement prevents hazardous material transport, so John does not meet all requirements."
+    ]
+  },
+  {
+    "idx": [
+      [
+        2,
+        3,
+        6,
+        7,
+        8
+      ],
+      [
+        2,
+        3,
+        6,
+        7,
+        8
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, ForAll(d, (faculty_member(x) ∧ has_degree(x, d) ∧ higher(d, BA)) → teach_undergrad(x)))",
+      "ForAll(x, ForAll(d, (faculty_member(x) ∧ has_degree(x, d) ∧ higher(d, MSc)) → teach_graduate(x)))",
+      "ForAll(x, teach_graduate(x) → research_mentor(x))",
+      "ForAll(a, ForAll(b, ForAll(c, (higher(a, b) ∧ higher(b, c)) → higher(a, c))))",
+      "higher(MSc, BA)",
+      "higher(PhD, MSc)",
+      "faculty_member(dr_john)",
+      "has_degree(dr_john, PhD)"
+    ],
+    "premises-NL": [
+      "Faculty members with a degree higher than BA can teach undergraduate courses.",
+      "Faculty members with a degree higher than MSc can teach graduate courses.",
+      "Anyone who teaches graduate courses can be a research mentor.",
+      "If degree A is higher than B, and B is higher than C, then A is higher than C.",
+      "MSc is higher than BA.",
+      "PhD is higher than MSc.",
+      "Dr. John is a faculty member.",
+      "Dr. John has a PhD."
+    ],
+    "questions": [
+      "Based on the premises, which capabilities does Dr. John have?\nA. Can teach undergraduate courses only\nB. Can be a research mentor\nC. Cannot teach graduate courses\nD. Needs additional certification to mentor",
+      "Does Dr. John’s PhD qualification make him eligible to be a research mentor, according to the premises?"
+    ],
+    "answers": [
+      "B",
+      "No"
+    ],
+    "explanation": [
+      "Premises 7 and 8 confirm Dr. John is a faculty member with a PhD. Premise 6 states PhD is higher than MSc, so premise 2 allows him to teach graduate courses. Premise 3 confirms that teaching graduate courses qualifies him as a research mentor, supporting option B. Option A is false because he can teach graduate courses. Option C is false because he can teach graduate courses. Option D is false because no additional certification is required.",
+      "Premise 8 confirms Dr. John’s PhD, and premise 7 confirms his faculty status. Premise 6 establishes PhD is higher than MSc, so premise 2 qualifies him to teach graduate courses. Premise 3 confirms that graduate teaching implies research mentorship eligibility, so his PhD qualification entails mentorship eligibility."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(c, (well_structured(c) ∧ has_exercises(c)) → enhances_engagement(c))",
+      "ForAll(c, (enhances_engagement(c) ∧ advanced_resources(c)) → enhances_critical_thinking(c))",
+      "ForAll(f, (pedagogical_training(f) ∧ curriculum_development(f)) → well_structured(curriculum))",
+      "pedagogical_training(faculty) ∧ curriculum_development(faculty)",
+      "has_exercises(curriculum)",
+      "advanced_resources(curriculum)"
+    ],
+    "premises-NL": [
+      "If a curriculum is well-structured and has exercises, it enhances student engagement.",
+      "If a curriculum enhances student engagement and provides access to advanced resources, it enhances critical thinking.",
+      "If a faculty prioritizes pedagogical training and curriculum development, the curriculum is well-structured.",
+      "The faculty prioritizes pedagogical training and curriculum development.",
+      "The curriculum has practical exercises.",
+      "The curriculum provides access to advanced resources."
+    ],
+    "questions": [
+      "Based on the premises, what can we conclude about the curriculum?\nA. It enhances student engagement but not critical thinking\nB. It enhances critical thinking\nC. It needs more resources to enhance critical thinking\nD. It is well-structured but lacks exercises",
+      "Does the combination of faculty priorities and curriculum features lead to enhanced critical thinking, according to the premises?"
+    ],
+    "answers": [
+      "B",
+      "Yes"
+    ],
+    "explanation": [
+      "Premise 4 and premise 3 confirm the curriculum is well-structured due to faculty priorities in pedagogical training and curriculum development. Premise 5 provides exercises, so premise 1 implies the curriculum enhances student engagement. Premise 6 adds advanced resources, and premise 2 confirms the curriculum enhances critical thinking, supporting option B. Option A is false because it enhances critical thinking. Option C is false because resources are sufficient. Option D is false because the curriculum has exercises.",
+      "Faculty priorities in premise 4 (pedagogical training and curriculum development) satisfy premise 3, making the curriculum well-structured. Curriculum features in premise 5 (exercises) and premise 1 lead to enhanced engagement, and with premise 6 (advanced resources), premise 2 confirms enhanced critical thinking, supporting the statement."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(c, (well_structured(c) ∧ has_exercises(c)) → enhances_engagement(c))",
+      "ForAll(c, (enhances_engagement(c) ∧ advanced_resources(c)) → enhances_critical_thinking(c))",
+      "ForAll(f, (pedagogical_training(f) ∧ curriculum_development(f)) → well_structured(curriculum))",
+      "pedagogical_training(faculty) ∧ curriculum_development(faculty)",
+      "has_exercises(curriculum)",
+      "advanced_resources(curriculum)"
+    ],
+    "premises-NL": [
+      "If a curriculum is well-structured and has exercises, it enhances student engagement.",
+      "If a curriculum enhances student engagement and provides access to advanced resources, it enhances critical thinking.",
+      "If a faculty prioritizes pedagogical training and curriculum development, the curriculum is well-structured.",
+      "The faculty prioritizes pedagogical training and curriculum development.",
+      "The curriculum has practical exercises.",
+      "The curriculum provides access to advanced resources."
+    ],
+    "questions": [
+      "Based on the premises, what can we conclude about the curriculum?\nA. It enhances student engagement but not critical thinking\nB. It enhances critical thinking\nC. It needs more resources to enhance critical thinking\nD. It is well-structured but lacks exercises",
+      "Does the combination of faculty priorities and curriculum features lead to enhanced critical thinking, according to the premises?"
+    ],
+    "answers": [
+      "B",
+      "Yes"
+    ],
+    "explanation": [
+      "Premise 4 and premise 3 confirm the curriculum is well-structured due to faculty priorities in pedagogical training and curriculum development. Premise 5 provides exercises, so premise 1 implies the curriculum enhances student engagement. Premise 6 adds advanced resources, and premise 2 confirms the curriculum enhances critical thinking, supporting option B. Option A is false because it enhances critical thinking. Option C is false because resources are sufficient. Option D is false because the curriculum has exercises.",
+      "Faculty priorities in premise 4 (pedagogical training and curriculum development) satisfy premise 3, making the curriculum well-structured. Curriculum features in premise 5 (exercises) and premise 1 lead to enhanced engagement, and with premise 6 (advanced resources), premise 2 confirms enhanced critical thinking, supporting the statement."
+    ]
+  }
+]
