@@ -3,6 +3,30 @@ import shutil
 import subprocess
 from pathlib import Path
 
+def load_hf_token():
+    token = (
+        os.environ.get("HF_TOKEN")
+        or os.environ.get("HUGGING_FACE_HUB_TOKEN")
+        or os.environ.get("HF_HUB_TOKEN")
+    )
+
+    if not token:
+        try:
+            from kaggle_secrets import UserSecretsClient
+
+            token = UserSecretsClient().get_secret("HF_TOKEN")
+        except Exception as e:
+            print(f"[warn] Could not load HF_TOKEN from Kaggle secrets: {e}", flush=True)
+            token = ""
+
+    if token:
+        os.environ["HF_TOKEN"] = token
+        os.environ["HUGGING_FACE_HUB_TOKEN"] = token
+        os.environ["HF_HUB_TOKEN"] = token
+        print("[ok] HF_TOKEN loaded", flush=True)
+    else:
+        print("[warn] HF_TOKEN not found; Hugging Face downloads may be slower/rate-limited", flush=True)
+
 REPO_URL = os.environ.get("REPO_URL", "https://github.com/IamCauVang/Exact2026.git")
 TASK = os.environ.get("TASK", "batch")
 INPUT_MODE = os.environ.get("INPUT_MODE", "auto")
@@ -62,6 +86,8 @@ def main():
     print(f"TRAIN_MAX_STEPS={TRAIN_MAX_STEPS}", flush=True)
     print(f"RUN_ID={RUN_ID}", flush=True)
     print("=" * 70, flush=True)
+
+    load_hf_token()
 
     if REPO_DIR.exists():
         shutil.rmtree(REPO_DIR)
