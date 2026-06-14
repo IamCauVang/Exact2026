@@ -1,0 +1,292 @@
+[
+  {
+    "idx": [
+      [
+        1
+      ],
+      [
+        7,
+        10
+      ]
+    ],
+    "premises-FOL": [
+      "∀x (WT(x) → O(x))",
+      "∀x (¬PEP8(x) → ¬WT(x))",
+      "∀x (EM(x))",
+      "∀x (WT(x))",
+      "∀x (PEP8(x) → EM(x))",
+      "∀x (WT(x) → PEP8(x))",
+      "∀x (WS(x) → O(x))",
+      "∀x (EM(x) → WT(x))",
+      "∀x (O(x) → CR(x))",
+      "∀x (WS(x))",
+      "∀x (CR(x))",
+      "∃x (BP(x))",
+      "∃x (O(x))",
+      "∀x (¬WS(x) → ¬PEP8(x))"
+    ],
+    "premises-NL": [
+      "If a Python code is well-tested, then the project is optimized.",
+      "If a Python code does not follow PEP 8 standards, then it is not well-tested.",
+      "All Python projects are easy to maintain.",
+      "All Python code is well-tested.",
+      "If a Python code follows PEP 8 standards, then it is easy to maintain.",
+      "If a Python code is well-tested, then it follows PEP 8 standards.",
+      "If a Python project is well-structured, then it is optimized.",
+      "If a Python project is easy to maintain, then it is well-tested.",
+      "If a Python project is optimized, then it has clean and readable code.",
+      "All Python projects are well-structured.",
+      "All Python projects have clean and readable code.",
+      "There exists at least one Python project that follows best practices.",
+      "There exists at least one Python project that is optimized.",
+      "If a Python project is not well-structured, then it does not follow PEP 8 standards."
+    ],
+    "questions": [
+      "Which conclusion follows with the fewest premises?\nA. If a Python project is not optimized, then it is not well-tested\nB. If all Python projects are optimized, then all Python projects are well-structured\nC. If a Python project is well-tested, then it must be clean and readable\nD. If a Python project is not optimized, then it does not follow PEP 8 standards",
+      "Does it follow that if all Python projects are well-structured, then all Python projects are optimized, according to the premises?"
+    ],
+    "answers": [
+      "A",
+      "Yes"
+    ],
+    "explanation": [
+      "Premise 1 states that if a Python project is well-tested, it is optimized. By logical contraposition, if a project is not optimized, it is not well-tested, supporting option A with the fewest premises. Option B is false because optimization does not imply well-structured projects. Option C follows from premises 4, 1, and 9 but requires more steps. Option D follows from premises 1 and 6 but is less direct than A.",
+      "Premise 10 confirms all Python projects are well-structured. Premise 7 states that well-structured projects are optimized, implying all projects are optimized, so the statement that well-structured projects imply optimized projects holds."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        2,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      [
+        1,
+        2,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, (completed_core_curriculum(x) ∧ passed_science_assessment(x)) → qualified_for_advanced_courses(x))",
+      "ForAll(x, (qualified_for_advanced_courses(x) ∧ completed_research_methodology(x)) → eligible_for_international_program(x))",
+      "ForAll(x, passed_language_proficiency(x) → eligible_for_international_program(x))",
+      "ForAll(x, (eligible_for_international_program(x) ∧ completed_capstone_project(x)) → awarded_honors_diploma(x))",
+      "ForAll(x, (awarded_honors_diploma(x) ∧ completed_community_service(x)) → qualifies_for_scholarship(x))",
+      "ForAll(x, (awarded_honors_diploma(x) ∧ received_faculty_recommendation(x)) → qualifies_for_scholarship(x))",
+      "completed_core_curriculum(Sophia)",
+      "passed_science_assessment(Sophia)",
+      "completed_research_methodology(Sophia)",
+      "completed_capstone_project(Sophia)",
+      "completed_community_service(Sophia)"
+    ],
+    "premises-NL": [
+      "Students who have completed the core curriculum and passed the science assessment are qualified for advanced courses.",
+      "Students who are qualified for advanced courses and have completed research methodology are eligible for the international program.",
+      "Students who have passed the language proficiency exam are eligible for the international program.",
+      "Students who are eligible for the international program and have completed a capstone project are awarded an honors diploma.",
+      "Students who have been awarded an honors diploma and have completed community service qualify for the university scholarship.",
+      "Students who have been awarded an honors diploma and have received a faculty recommendation qualify for the university scholarship.",
+      "Sophia has completed the core curriculum.",
+      "Sophia has passed the science assessment.",
+      "Sophia has completed the research methodology course.",
+      "Sophia has completed her capstone project.",
+      "Sophia has completed the required community service hours."
+    ],
+    "questions": [
+      "Based on the above premises, which is the strongest conclusion?\nA. Sophia qualifies for the university scholarship\nB. Sophia needs a faculty recommendation to qualify for the scholarship\nC. Sophia is eligible for the international program\nD. Sophia needs to pass the language proficiency exam to get an honors diploma",
+      "Does Sophia qualify for the university scholarship, according to the premises?"
+    ],
+    "answers": [
+      "C",
+      "Yes"
+    ],
+    "explanation": [
+      "Premises 7 and 8 confirm Sophia completed the core curriculum and passed the science assessment, satisfying premise 1 for advanced courses. Premise 9’s research methodology and premise 2 make her eligible for the international program. Premise 10’s capstone project and premise 4 award her an honors diploma. Premise 11’s community service and premise 5 qualify her for the university scholarship, making A the strongest conclusion. Option B is false because community service suffices without a recommendation. Option C is true but weaker, as scholarship implies international program eligibility. Option D is false because language proficiency is not required via premise 2’s path.",
+      "The university scholarship per premise 5 requires an honors diploma and community service. Premise 4 requires international program eligibility and a capstone project, premise 2 requires advanced course qualification and research methodology, and premise 1 requires core curriculum and science assessment. Premises 7–11 confirm Sophia’s curriculum, assessment, methodology, capstone, and service, satisfying all conditions for the scholarship."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        2,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      [
+        1,
+        2,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, (completed_core_curriculum(x) ∧ passed_science_assessment(x)) → qualified_for_advanced_courses(x))",
+      "ForAll(x, (qualified_for_advanced_courses(x) ∧ completed_research_methodology(x)) → eligible_for_international_program(x))",
+      "ForAll(x, passed_language_proficiency(x) → eligible_for_international_program(x))",
+      "ForAll(x, (eligible_for_international_program(x) ∧ completed_capstone_project(x)) → awarded_honors_diploma(x))",
+      "ForAll(x, (awarded_honors_diploma(x) ∧ completed_community_service(x)) → qualifies_for_scholarship(x))",
+      "ForAll(x, (awarded_honors_diploma(x) ∧ received_faculty_recommendation(x)) → qualifies_for_scholarship(x))",
+      "completed_core_curriculum(Sophia)",
+      "passed_science_assessment(Sophia)",
+      "completed_research_methodology(Sophia)",
+      "completed_capstone_project(Sophia)",
+      "completed_community_service(Sophia)"
+    ],
+    "premises-NL": [
+      "Students who have completed the core curriculum and passed the science assessment are qualified for advanced courses.",
+      "Students who are qualified for advanced courses and have completed research methodology are eligible for the international program.",
+      "Students who have passed the language proficiency exam are eligible for the international program.",
+      "Students who are eligible for the international program and have completed a capstone project are awarded an honors diploma.",
+      "Students who have been awarded an honors diploma and have completed community service qualify for the university scholarship.",
+      "Students who have been awarded an honors diploma and have received a faculty recommendation qualify for the university scholarship.",
+      "Sophia has completed the core curriculum.",
+      "Sophia has passed the science assessment.",
+      "Sophia has completed the research methodology course.",
+      "Sophia has completed her capstone project.",
+      "Sophia has completed the required community service hours."
+    ],
+    "questions": [
+      "Based on the above premises, which conclusion is correct?\nA. Sophia qualifies for the university scholarship\nB. Sophia needs a faculty recommendation to qualify for the scholarship\nC. Sophia is eligible for the international program\nD. Sophia needs to pass the language proficiency exam to get an honors diploma",
+      "Does Sophia qualify for the university scholarship, according to the premises?"
+    ],
+    "answers": [
+      "C",
+      "Yes"
+    ],
+    "explanation": [
+      "Premises 7 and 8 confirm Sophia completed the core curriculum and passed the science assessment, satisfying premise 1 for advanced courses. Premise 9’s research methodology and premise 2 make her eligible for the international program. Premise 10’s capstone project and premise 4 award her an honors diploma. Premise 11’s community service and premise 5 qualify her for the university scholarship, supporting option A. Option B is false because community service suffices without a recommendation. Option C is true but weaker than A, as scholarship implies prior eligibility. Option D is false because language proficiency is not required via premise 2’s path.",
+      "The university scholarship per premise 5 requires an honors diploma and community service. Premise 4 requires international program eligibility and a capstone project, premise 2 requires advanced course qualification and research methodology, and premise 1 requires core curriculum and science assessment. Premises 7–11 confirm Sophia’s curriculum, assessment, methodology, capstone, and service, satisfying all conditions for the scholarship."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, completed_required_courses(x) → eligible_for_graduation(x))",
+      "ForAll(x, (eligible_for_graduation(x) ∧ gpa_above_3_5(x)) → graduates_with_honors(x))",
+      "ForAll(x, (graduates_with_honors(x) ∧ completed_thesis(x)) → academic_distinction(x))",
+      "ForAll(x, academic_distinction(x) → qualifies_for_fellowship(x))",
+      "completed_required_courses(John)",
+      "gpa_above_3_5(John)",
+      "completed_thesis(John)"
+    ],
+    "premises-NL": [
+      "If a student completes all required courses, they are eligible for graduation.",
+      "If a student is eligible for graduation and maintains a GPA above 3.5, they graduate with honors.",
+      "If a student graduates with honors and completes a thesis, they receive academic distinction.",
+      "If a student receives academic distinction, they qualify for the graduate fellowship program.",
+      "John has completed all required courses.",
+      "John maintains a GPA of 3.8.",
+      "John has completed a thesis."
+    ],
+    "questions": [
+      "Based on the above premises, which conclusion logically follows?\nA. John qualifies for the graduate fellowship program\nB. John needs faculty recommendation for the fellowship\nC. John must complete an internship to qualify\nD. John’s GPA is insufficient for honors",
+      "Does John receive academic distinction, according to the premises?"
+    ],
+    "answers": [
+      "A",
+      "Yes"
+    ],
+    "explanation": [
+      "Premise 5 and premise 1 confirm John is eligible for graduation by completing required courses. Premise 6’s GPA of 3.8 and premise 2 qualify him for honors. Premise 7’s thesis and premise 3 grant academic distinction. Premise 4 confirms distinction qualifies him for the graduate fellowship program, supporting option A. Option B is false because no recommendation is required. Option C is false because no internship is mentioned. Option D is false because his GPA exceeds 3.5.",
+      "Academic distinction per premise 3 requires graduating with honors and completing a thesis. Premise 2 requires graduation eligibility and a GPA above 3.5, and premise 1 requires course completion. Premises 5–7 confirm John’s course completion, GPA of 3.8, and thesis, satisfying all conditions for academic distinction."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, completed_pedagogical_training(x) → can_teach_undergraduate(x))",
+      "ForAll(x, (can_teach_undergraduate(x) ∧ holds_phd(x)) → can_supervise_graduate(x))",
+      "ForAll(x, (can_supervise_graduate(x) ∧ has_at_least_three_publications(x)) → can_serve_curriculum_committees(x))",
+      "ForAll(x, (can_serve_curriculum_committees(x) ∧ has_positive_evaluation(x)) → can_propose_courses(x))",
+      "completed_pedagogical_training(John)",
+      "holds_phd(John)",
+      "has_at_least_three_publications(John)",
+      "has_positive_evaluation(John)"
+    ],
+    "premises-NL": [
+      "If a faculty member has completed training, they can teach undergraduate courses.",
+      "If a faculty member can teach undergraduate courses and holds a PhD, they can supervise graduate students.",
+      "If a faculty member can supervise graduate students and has at least 3 publications, they can serve on curriculum committees.",
+      "If a faculty member can serve on curriculum committees and has a positive teaching evaluation, they can propose new courses.",
+      "Professor John has completed pedagogical training.",
+      "Professor John holds a PhD.",
+      "Professor John has published at least 3 academic papers.",
+      "Professor John has received a positive teaching evaluation."
+    ],
+    "questions": [
+      "Based on the premises, what is the correct conclusion about Professor John?\nA. He can teach undergraduate courses but cannot supervise graduates\nB. He can serve on curriculum committees but cannot propose courses\nC. He can propose new courses\nD. He needs more publications to serve on committees",
+      "Does Professor John meet all requirements to propose new courses, according to the premises?"
+    ],
+    "answers": [
+      "C",
+      "Yes"
+    ],
+    "explanation": [
+      "Premise 5 and premise 1 confirm Professor John can teach undergraduate courses due to pedagogical training. Premise 6’s PhD and premise 2 allow him to supervise graduate students. Premise 7’s three or more publications and premise 3 qualify him for curriculum committees. Premise 8’s positive evaluation and premise 4 confirm he can propose new courses, supporting option C. Option A is false because he can supervise graduates. Option B is false because he can propose courses. Option D is false because he has sufficient publications.",
+      "Proposing new courses per premise 4 requires serving on curriculum committees and a positive evaluation. Premise 3 requires graduate supervision and at least three publications, premise 2 requires undergraduate teaching and a PhD, and premise 1 requires training. Premises 5–8 confirm John’s training, PhD, publications, and evaluation, satisfying all conditions, so he meets the requirements."
+    ]
+  }
+]

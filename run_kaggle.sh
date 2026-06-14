@@ -5,6 +5,9 @@ TASK="${1:-benchmark}"
 INPUT_MODE="${INPUT_MODE:-auto}"
 BATCH_SIZE="${BATCH_SIZE:-0}"
 LIMIT="${LIMIT:-}"
+SUBSET_N="${SUBSET_N:-}"
+SUBSET_SOURCE="${SUBSET_SOURCE:-data/full_data.json}"
+SUBSET_OUT="${SUBSET_OUT:-}"
 CASE_IDS="${CASE_IDS:-}"
 RUN_ID="${RUN_ID:-$(date +%Y%m%d_%H%M%S)}"
 MODEL_NAME="${MODEL_NAME:-Qwen/Qwen3-8B}"
@@ -55,6 +58,59 @@ cleanup() { rm -rf "$BUILD_DIR"; }
 trap cleanup EXIT
 
 KAGGLE_URL="https://www.kaggle.com/code/${KERNEL}"
+
+if [ -n "$SUBSET_N" ]; then
+  if [ -z "$SUBSET_OUT" ]; then
+    SUBSET_OUT="data/full_data_${SUBSET_N}q.json"
+  fi
+
+  echo "[$(elapsed)] [subset] Create ${SUBSET_OUT} from ${SUBSET_SOURCE} with ${SUBSET_N} questions"
+
+  python - "$SUBSET_SOURCE" "$SUBSET_OUT" "$SUBSET_N" <<'PY_SUBSET'
+import json
+import sys
+from pathlib import Path
+
+src = Path(sys.argv[1])
+out = Path(sys.argv[2])
+n = int(sys.argv[3])
+
+records = json.loads(src.read_text(encoding="utf-8"))
+
+picked = []
+remaining = n
+
+for item in records:
+    qs = item.get("questions", [])
+    if not qs:
+        continue
+
+    take = min(remaining, len(qs))
+    new_item = dict(item)
+
+    for key in ("questions", "answers", "explanation", "idx"):
+        value = item.get(key)
+        if isinstance(value, list) and len(value) == len(qs):
+            new_item[key] = value[:take]
+
+    picked.append(new_item)
+    remaining -= take
+
+    if remaining <= 0:
+        break
+
+out.parent.mkdir(parents=True, exist_ok=True)
+out.write_text(json.dumps(picked, ensure_ascii=False, indent=2), encoding="utf-8")
+
+actual = sum(len(x.get("questions", [])) for x in picked)
+print(f"[subset] wrote={out} records={len(picked)} questions={actual}")
+
+if actual != n:
+    raise SystemExit(f"Requested {n} questions but only wrote {actual}")
+PY_SUBSET
+
+  DATASET="$SUBSET_OUT"
+fi
 
 echo "======================================"
 echo "EXACT Kaggle Core Runner"
