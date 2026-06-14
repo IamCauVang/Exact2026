@@ -565,7 +565,7 @@ class AnswerPipeline:
                 def _choice_score(k: str):
                     rr_k = option_results[k]
                     query_k = parsed.choices.get(k, "")
-                    used_cost = len(rr_k.used_premises)
+                    used_cost = len(rr_k.used_premises) if rr_k.used_premises else 999
 
                     if "fewest premise" in question_l or "fewest premises" in question_l:
                         direct_cost = _direct_rule_or_contraposition_cost(query_k, reasoner.kb)

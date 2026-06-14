@@ -428,23 +428,71 @@ def _condition_clause_to_atom_formula(clause: str, kb: KnowledgeBase, arg: str =
 def _is_explicit_conditional(text: str) -> bool:
     return _split_if_then(text) is not None
 
+PHRASE_PREDICATE_ALIASES = {
+    "well-tested": "WT",
+    "well tested": "WT",
+    "welltest": "WT",
+
+    "well-structured": "WS",
+    "well structured": "WS",
+
+    "optimized": "O",
+    "optimised": "O",
+
+    "clean and readable": "CR",
+    "clean readable": "CR",
+    "readable code": "CR",
+
+    "pep 8": "PEP8",
+    "pep8": "PEP8",
+    "follows pep 8": "PEP8",
+    "follow pep 8": "PEP8",
+
+    "easy to maintain": "EM",
+    "maintainable": "EM",
+}
+
+
+def _is_negated_clause(text: str) -> bool:
+    t = (text or "").lower()
+    return bool(re.search(
+        r"\b(not|does not|do not|did not|is not|are not|isn't|aren't|cannot|can't|without)\b",
+        t,
+    ))
+
+
+def _alias_atom_formula(text: str, kb: KnowledgeBase, var: str = "x") -> str | None:
+    t = (text or "").lower()
+    available = set(predicates(kb))
+
+    for phrase, pred in sorted(PHRASE_PREDICATE_ALIASES.items(), key=lambda x: -len(x[0])):
+        if phrase in t and pred in available:
+            atom = f"{pred}({var})"
+            return f"not {atom}" if _is_negated_clause(t) else atom
+
+    return None
 
 def _parse_conditional_as_forall(text: str, kb: KnowledgeBase) -> str | None:
     parts = _split_if_then(text)
     if not parts:
         return None
+
     left, right = parts
 
-    left_subject, _ = _extract_subject_complement(left)
-    ant = _condition_clause_to_atom_formula(left, kb, "x", left_subject)
-    cons = _condition_clause_to_atom_formula(right, kb, "x", left_subject)
+    ant = _alias_atom_formula(left, kb, "x")
+    cons = _alias_atom_formula(right, kb, "x")
 
-    # Fallback to the older matcher if the subject/complement parser failed.
+    left_subject, _ = _extract_subject_complement(left)
+
+    ant = ant or _condition_clause_to_atom_formula(left, kb, "x", left_subject)
+    cons = cons or _condition_clause_to_atom_formula(right, kb, "x", left_subject)
+
     ant = ant or _phrase_to_atom_formula(left, kb, "x")
     cons = cons or _phrase_to_atom_formula(right, kb, "x")
 
     if ant and cons:
         return collapse_repeated_suffixes(f"ForAll(x, {ant} -> {cons})")
+
     return None
 
 
@@ -641,14 +689,18 @@ def postprocess_parsed_question(question: str, kb: KnowledgeBase, parsed: Parsed
             continue
 
         if option_is_conditional:
-            # Explicit conditionals should be ForAll implications. If the model failed,
-            # reconstruct from the option text.
-            if "->" in model_value and (model_value.lower().startswith("forall") or "(" in model_value):
+            fallback = _parse_conditional_as_forall(option_text, kb)
+
+            if fallback:
+                fixed[label] = collapse_repeated_suffixes(fallback)
+                if model_value and model_value != fallback:
+                    post_warnings.append(f"option_{label}_conditional_reparsed")
+            elif "->" in model_value and (model_value.lower().startswith("forall") or "(" in model_value):
                 fixed[label] = collapse_repeated_suffixes(model_value)
             else:
-                fallback = _parse_conditional_as_forall(option_text, kb)
-                fixed[label] = fallback if fallback else model_value
-                post_warnings.append(f"option_{label}_conditional_reparsed")
+                fixed[label] = collapse_repeated_suffixes(model_value or _snake(option_text))
+                post_warnings.append(f"option_{label}_conditional_fallback_failed")
+
             continue
 
         # Factual entity options should be atoms. ForAll here is usually a hallucinated rule.
