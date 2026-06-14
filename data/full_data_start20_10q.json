@@ -1,0 +1,215 @@
+[
+  {
+    "idx": [
+      [
+        2,
+        3,
+        5
+      ],
+      [
+        2,
+        3,
+        5
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, complete(x, A) → enroll(x, B))",
+      "ForAll(x, (enroll(x, B) ∧ pass(x, B)) → enroll(x, C))",
+      "ForAll(x, enroll(x, C) → eligible_internship(x))",
+      "complete(david, A)",
+      "enroll(david, B) ∧ pass(david, B)"
+    ],
+    "premises-NL": [
+      "If a student completes Course A, they can enroll in Course B.",
+      "If a student enrolls in Course B and passes it, they can enroll in Course C.",
+      "Enrollment in Course C makes a student eligible for the internship program.",
+      "David has completed Course A.",
+      "David has enrolled in and passed Course B."
+    ],
+    "questions": [
+      "Based on the prerequisites, what is David’s current eligibility status?\nA. Eligible for Course C but not the internship\nB. Eligible for the internship program\nC. Needs to pass Course B first\nD. Only eligible for Course B",
+      "Does the logical progression demonstrate that David meets all requirements for the internship?"
+    ],
+    "answers": [
+      "B",
+      "Yes"
+    ],
+    "explanation": [
+      "Premise 5 confirms David enrolled in and passed Course B, satisfying premise 2’s conditions to enroll in Course C. Premise 3 states that enrollment in Course C makes David eligible for the internship program, supporting option B. Option A is false because eligibility for Course C implies internship eligibility. Option C is false because David has passed Course B. Option D is false because David is eligible beyond Course B, for Course C and the internship.",
+      "The requirements for the internship per premise 3 involve enrolling in Course C, which per premise 2 requires enrolling in and passing Course B. Premise 5 confirms David enrolled in and passed Course B, enabling Course C enrollment and thus internship eligibility."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        3,
+        4,
+        7
+      ],
+      [
+        1,
+        3,
+        4,
+        5,
+        7
+      ]
+    ],
+    "premises-FOL": [
+      "safety_orientation(Alex)",
+      "membership_duration(Alex) = 8",
+      "paid_annual_fee(Alex)",
+      "ForAll(x, (valid_membership(x) ∧ safety_orientation(x)) → use_equipment(x))",
+      "ForAll(x, (use_equipment(x) ∧ has_trainer(x)) → book_training(x))",
+      "ForAll(x, (membership_duration(x) ≥ 6) → eligible_trainer(x))",
+      "ForAll(x, paid_annual_fee(x) → valid_membership(x))"
+    ],
+    "premises-NL": [
+      "Alex has completed safety orientation.",
+      "Alex has a membership duration of 8 months.",
+      "Alex has paid annual fees on time.",
+      "If a person has a valid membership card and has completed safety orientation, they can use equipment.",
+      "If a person can use equipment and has a trainer, they can book training.",
+      "If a person’s membership duration is at least 6 months, they are eligible for a trainer.",
+      "If a person has paid the annual fee, they have a valid membership."
+    ],
+    "questions": [
+      "Based on Alex's status, which statement is correct?\nA. Alex can use equipment but cannot book training without a trainer\nB. Alex can book personal training sessions if assigned a trainer\nC. Alex needs a longer membership duration\nD. Alex must pay additional fees",
+      "Does Alex meet all requirements for booking training sessions, according to the premises?"
+    ],
+    "answers": [
+      "C",
+      "No"
+    ],
+    "explanation": [
+      "Premises 3 and 7 confirm Alex paid fees for a valid membership, premise 1 confirms safety orientation, and premise 4 allows equipment use, so Alex can use equipment. Premise 5 requires a trainer to book training, which isn’t confirmed, supporting option A. Option B is uncertain without a confirmed trainer. Option C is false because 8 months exceeds 6 per premise 6. Option D is false because fees are paid per premise 3.",
+      "Booking training per premise 5 requires equipment use and having a trainer. Premises 1, 3, 4, and 7 confirm Alex can use equipment, and premises 2 and 6 confirm trainer eligibility, but no premise confirms Alex has a trainer, so Alex doesn’t meet all requirements."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        3,
+        4
+      ],
+      [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, (active_status(x) ∧ completed_courses(x) ≥ 5) → eligible_advanced(x))",
+      "ForAll(x, eligible_advanced(x) → requires_approval(x))",
+      "active_status(sarah)",
+      "completed_courses(sarah) = 4",
+      "has_approval(sarah)"
+    ],
+    "premises-NL": [
+      "Students with active status who have completed at least 5 courses are eligible for advanced classes.",
+      "Eligible students must obtain advisor approval to take advanced classes.",
+      "Sarah has active student status.",
+      "Sarah has completed 4 courses.",
+      "Sarah has obtained advisor approval."
+    ],
+    "questions": [
+      "Based on the requirements, which statement about Sarah is correct?\nA. She can take advanced classes because she has approval\nB. She cannot take advanced classes due to insufficient completed courses\nC. She is eligible but lacks approval\nD. Her active status alone qualifies her",
+      "Does Sarah meet all requirements to take advanced classes, according to the premises?"
+    ],
+    "answers": [
+      "D",
+      "No"
+    ],
+    "explanation": [
+      "Premise 3 confirms Sarah has active status, but premise 4 states she completed only 4 courses, which is below the 5-course threshold for eligibility in premise 1. Thus, Sarah cannot take advanced classes due to insufficient courses, supporting option B. Option A is false because approval alone isn’t enough without eligibility. Option C is false because Sarah is not eligible and has approval. Option D is false because active status requires 5 courses for eligibility.",
+      "To take advanced classes, premise 1 requires active status and at least 5 courses for eligibility, and premise 2 requires approval. Premise 3 confirms Sarah’s active status, premise 5 confirms her approval, but premise 4 states she completed only 4 courses, failing the eligibility requirement, so Sarah does not meet all requirements."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        4,
+        5
+      ],
+      [
+        1,
+        4,
+        5
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, has_degree(x, PhD) → teach_graduate(x))",
+      "higher(PhD, MSc)",
+      "ForAll(x, ForAll(d, (higher(d, MSc) ∧ has_degree(x, d)) → supervise_masters(x)))",
+      "ForAll(x, teach_graduate(x) → supervise_research(x))",
+      "has_degree(John, PhD)"
+    ],
+    "premises-NL": [
+      "If a professor has a PhD degree, they are qualified to teach graduate courses.",
+      "A doctoral degree (PhD) is higher than a Master's degree.",
+      "If a professor holds a degree higher than a Master's, they are eligible to supervise Master's students.",
+      "All professors qualified to teach graduate courses can also supervise graduate-level research.",
+      "Professor John holds a PhD degree."
+    ],
+    "questions": [
+      "Based on Professor John's qualifications, which capabilities does he have?\nA. Can teach graduate courses but cannot supervise research\nB. Can supervise Master's students but not graduate research\nC. Can both teach graduate courses and supervise research\nD. Needs additional certification to supervise",
+      "Can Professor John supervise graduate-level research based on his PhD qualification, according to the premises?"
+    ],
+    "answers": [
+      "C",
+      "No"
+    ],
+    "explanation": [
+      "Premise 5 states Professor John has a PhD, premise 1 confirms that a PhD qualifies him to teach graduate courses, and premise 4 states that those qualified to teach graduate courses can supervise graduate-level research, so John can do both, supporting option C. Option A is false because John can supervise research. Option B is false because he can supervise research. Option D is false because no additional certification is required.",
+      "Premise 5 confirms Professor John’s PhD, premise 1 establishes that a PhD qualifies him to teach graduate courses, and premise 4 confirms that teaching qualification enables him to supervise graduate-level research, so John can supervise research."
+    ]
+  },
+  {
+    "idx": [
+      [
+        2,
+        3,
+        7
+      ],
+      [
+        2,
+        3,
+        7
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, has_degree(x, MSc) → teach_undergrad(x))",
+      "ForAll(x, ForAll(d, (higher(d, MSc) ∧ has_degree(x, d)) → teach_undergrad(x)))",
+      "higher(PhD, MSc)",
+      "higher(MSc, BSc)",
+      "ForAll(a, ForAll(b, ForAll(c, (higher(a, b) ∧ higher(b, c)) → higher(a, c))))",
+      "ForAll(x, department_head(x) → (∃d, has_degree(x, d) ∧ higher(d, BSc)))",
+      "department_head(John) ∧ has_degree(John, PhD)"
+    ],
+    "premises-NL": [
+      "Lecturers with a Master's degree can teach undergraduate courses.",
+      "Lecturers with a degree higher than a Master's can teach undergraduate courses.",
+      "A PhD is higher than a Master's degree.",
+      "A Master's degree is higher than a Bachelor's degree.",
+      "If degree A is higher than degree B, and degree B is higher than degree C, then degree A is higher than degree C.",
+      "Department heads must hold a degree higher than a Bachelor's.",
+      "Dr. John is a department head with a PhD."
+    ],
+    "questions": [
+      "Based on Dr. John's qualifications, which statement is correct?\nA. He can teach undergraduate courses\nB. He qualifies as department head but cannot teach\nC. He needs a Master's degree to teach undergraduates\nD. His PhD is insufficient for teaching",
+      "Can Dr. John teach undergraduate courses, according to the premises?"
+    ],
+    "answers": [
+      "A",
+      "No"
+    ],
+    "explanation": [
+      "Premise 7 states Dr. John has a PhD, premise 3 confirms a PhD is higher than a Master’s, and premise 2 states that a degree higher than a Master’s qualifies a lecturer to teach undergraduate courses, so John can teach, supporting option A. Option B is false because John can teach. Option C is false because a PhD suffices without needing a Master’s. Option D is false because a PhD is sufficient.",
+      "Premise 7 confirms Dr. John has a PhD, premise 3 establishes that a PhD is higher than a Master’s, and premise 2 allows lecturers with a degree higher than a Master’s to teach undergraduate courses, so John can teach."
+    ]
+  }
+]
