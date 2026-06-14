@@ -10,22 +10,13 @@ def load_hf_token():
         or os.environ.get("HF_HUB_TOKEN")
     )
 
-    if not token:
-        try:
-            from kaggle_secrets import UserSecretsClient
-
-            token = UserSecretsClient().get_secret("HF_TOKEN")
-        except Exception as e:
-            print(f"[warn] Could not load HF_TOKEN from Kaggle secrets: {e}", flush=True)
-            token = ""
-
     if token:
         os.environ["HF_TOKEN"] = token
         os.environ["HUGGING_FACE_HUB_TOKEN"] = token
         os.environ["HF_HUB_TOKEN"] = token
-        print("[ok] HF_TOKEN loaded", flush=True)
+        print("[ok] HF_TOKEN loaded from environment", flush=True)
     else:
-        print("[warn] HF_TOKEN not found; Hugging Face downloads may be slower/rate-limited", flush=True)
+        print("[warn] HF_TOKEN not found in environment; Hugging Face downloads may be slower/rate-limited", flush=True)
 
 REPO_URL = os.environ.get("REPO_URL", "https://github.com/IamCauVang/Exact2026.git")
 TASK = os.environ.get("TASK", "batch")

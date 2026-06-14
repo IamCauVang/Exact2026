@@ -28,6 +28,7 @@ USE_4BIT="${USE_4BIT:-1}"
 MIN_CONFIDENCE="${MIN_CONFIDENCE:-0.0}"
 REPO_URL="${REPO_URL:-https://github.com/IamCauVang/Exact2026.git}"
 KERNEL="${KERNEL:-iamcauvang/exactv2-cauvang}"
+HF_TOKEN="${HF_TOKEN:-}"
 
 BUILD_DIR=".kaggle_build"
 OUT_DIR="kaggle_outputs"
@@ -149,6 +150,11 @@ echo "TRAIN_MAX_STEPS = $TRAIN_MAX_STEPS"
 echo "RUN_ID        = $RUN_ID"
 echo "KERNEL        = $KERNEL"
 echo "KAGGLE URL    = $KAGGLE_URL"
+if [ -n "$HF_TOKEN" ]; then
+  echo "HF_TOKEN      = <provided from local env>"
+else
+  echo "HF_TOKEN      = <none>"
+fi
 echo "START         = $(date '+%Y-%m-%d %H:%M:%S')"
 echo "======================================"
 
@@ -193,11 +199,33 @@ USE_4BIT="$USE_4BIT" \
 MIN_CONFIDENCE="$MIN_CONFIDENCE" \
 REPO_URL="$REPO_URL" \
 KERNEL="$KERNEL" \
+HF_TOKEN="$HF_TOKEN" \
 python - <<'PY_PATCH'
 from pathlib import Path
-import json, os, re
+import base64, json, os, re
 runner = Path('.kaggle_build/runner.py')
 s = runner.read_text()
+hf_token = os.environ.get("HF_TOKEN", "").strip()
+
+if hf_token:
+    token_b64 = base64.b64encode(hf_token.encode("utf-8")).decode("ascii")
+
+    inject = f'''
+# ---- injected by run_kaggle.sh; do not commit generated file ----
+import base64 as _exact_b64
+import os as _exact_os
+
+_exact_hf_token = _exact_b64.b64decode("{token_b64}").decode("utf-8")
+_exact_os.environ["HF_TOKEN"] = _exact_hf_token
+_exact_os.environ["HUGGING_FACE_HUB_TOKEN"] = _exact_hf_token
+_exact_os.environ["HF_HUB_TOKEN"] = _exact_hf_token
+print("[ok] HF_TOKEN injected from local env", flush=True)
+# ---- end injected token ----
+
+'''
+
+    if "HF_TOKEN injected from local env" not in s:
+        s = inject + s
 replacements = {
   'REPO_URL': os.environ.get('REPO_URL',''),
   'TASK': os.environ.get('TASK_FROM_SHELL','batch'),
@@ -231,7 +259,10 @@ meta_path = Path('.kaggle_build/kernel-metadata.json')
 meta = json.loads(meta_path.read_text())
 meta['id'] = os.environ.get('KERNEL', meta.get('id',''))
 meta['code_file'] = 'runner.py'
-meta.setdefault('is_private','false')
+if hf_token:
+    meta['is_private'] = 'true'
+else:
+    meta.setdefault('is_private', 'false')
 meta_path.write_text(json.dumps(meta, indent=2))
 PY_PATCH
 
