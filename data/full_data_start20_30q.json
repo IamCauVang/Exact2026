@@ -1,0 +1,689 @@
+[
+  {
+    "idx": [
+      [
+        2,
+        3,
+        5
+      ],
+      [
+        2,
+        3,
+        5
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, complete(x, A) → enroll(x, B))",
+      "ForAll(x, (enroll(x, B) ∧ pass(x, B)) → enroll(x, C))",
+      "ForAll(x, enroll(x, C) → eligible_internship(x))",
+      "complete(david, A)",
+      "enroll(david, B) ∧ pass(david, B)"
+    ],
+    "premises-NL": [
+      "If a student completes Course A, they can enroll in Course B.",
+      "If a student enrolls in Course B and passes it, they can enroll in Course C.",
+      "Enrollment in Course C makes a student eligible for the internship program.",
+      "David has completed Course A.",
+      "David has enrolled in and passed Course B."
+    ],
+    "questions": [
+      "Based on the prerequisites, what is David’s current eligibility status?\nA. Eligible for Course C but not the internship\nB. Eligible for the internship program\nC. Needs to pass Course B first\nD. Only eligible for Course B",
+      "Does the logical progression demonstrate that David meets all requirements for the internship?"
+    ],
+    "answers": [
+      "B",
+      "Yes"
+    ],
+    "explanation": [
+      "Premise 5 confirms David enrolled in and passed Course B, satisfying premise 2’s conditions to enroll in Course C. Premise 3 states that enrollment in Course C makes David eligible for the internship program, supporting option B. Option A is false because eligibility for Course C implies internship eligibility. Option C is false because David has passed Course B. Option D is false because David is eligible beyond Course B, for Course C and the internship.",
+      "The requirements for the internship per premise 3 involve enrolling in Course C, which per premise 2 requires enrolling in and passing Course B. Premise 5 confirms David enrolled in and passed Course B, enabling Course C enrollment and thus internship eligibility."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        3,
+        4,
+        7
+      ],
+      [
+        1,
+        3,
+        4,
+        5,
+        7
+      ]
+    ],
+    "premises-FOL": [
+      "safety_orientation(Alex)",
+      "membership_duration(Alex) = 8",
+      "paid_annual_fee(Alex)",
+      "ForAll(x, (valid_membership(x) ∧ safety_orientation(x)) → use_equipment(x))",
+      "ForAll(x, (use_equipment(x) ∧ has_trainer(x)) → book_training(x))",
+      "ForAll(x, (membership_duration(x) ≥ 6) → eligible_trainer(x))",
+      "ForAll(x, paid_annual_fee(x) → valid_membership(x))"
+    ],
+    "premises-NL": [
+      "Alex has completed safety orientation.",
+      "Alex has a membership duration of 8 months.",
+      "Alex has paid annual fees on time.",
+      "If a person has a valid membership card and has completed safety orientation, they can use equipment.",
+      "If a person can use equipment and has a trainer, they can book training.",
+      "If a person’s membership duration is at least 6 months, they are eligible for a trainer.",
+      "If a person has paid the annual fee, they have a valid membership."
+    ],
+    "questions": [
+      "Based on Alex's status, which statement is correct?\nA. Alex can use equipment but cannot book training without a trainer\nB. Alex can book personal training sessions if assigned a trainer\nC. Alex needs a longer membership duration\nD. Alex must pay additional fees",
+      "Does Alex meet all requirements for booking training sessions, according to the premises?"
+    ],
+    "answers": [
+      "C",
+      "No"
+    ],
+    "explanation": [
+      "Premises 3 and 7 confirm Alex paid fees for a valid membership, premise 1 confirms safety orientation, and premise 4 allows equipment use, so Alex can use equipment. Premise 5 requires a trainer to book training, which isn’t confirmed, supporting option A. Option B is uncertain without a confirmed trainer. Option C is false because 8 months exceeds 6 per premise 6. Option D is false because fees are paid per premise 3.",
+      "Booking training per premise 5 requires equipment use and having a trainer. Premises 1, 3, 4, and 7 confirm Alex can use equipment, and premises 2 and 6 confirm trainer eligibility, but no premise confirms Alex has a trainer, so Alex doesn’t meet all requirements."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        3,
+        4
+      ],
+      [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, (active_status(x) ∧ completed_courses(x) ≥ 5) → eligible_advanced(x))",
+      "ForAll(x, eligible_advanced(x) → requires_approval(x))",
+      "active_status(sarah)",
+      "completed_courses(sarah) = 4",
+      "has_approval(sarah)"
+    ],
+    "premises-NL": [
+      "Students with active status who have completed at least 5 courses are eligible for advanced classes.",
+      "Eligible students must obtain advisor approval to take advanced classes.",
+      "Sarah has active student status.",
+      "Sarah has completed 4 courses.",
+      "Sarah has obtained advisor approval."
+    ],
+    "questions": [
+      "Based on the requirements, which statement about Sarah is correct?\nA. She can take advanced classes because she has approval\nB. She cannot take advanced classes due to insufficient completed courses\nC. She is eligible but lacks approval\nD. Her active status alone qualifies her",
+      "Does Sarah meet all requirements to take advanced classes, according to the premises?"
+    ],
+    "answers": [
+      "D",
+      "No"
+    ],
+    "explanation": [
+      "Premise 3 confirms Sarah has active status, but premise 4 states she completed only 4 courses, which is below the 5-course threshold for eligibility in premise 1. Thus, Sarah cannot take advanced classes due to insufficient courses, supporting option B. Option A is false because approval alone isn’t enough without eligibility. Option C is false because Sarah is not eligible and has approval. Option D is false because active status requires 5 courses for eligibility.",
+      "To take advanced classes, premise 1 requires active status and at least 5 courses for eligibility, and premise 2 requires approval. Premise 3 confirms Sarah’s active status, premise 5 confirms her approval, but premise 4 states she completed only 4 courses, failing the eligibility requirement, so Sarah does not meet all requirements."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        4,
+        5
+      ],
+      [
+        1,
+        4,
+        5
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, has_degree(x, PhD) → teach_graduate(x))",
+      "higher(PhD, MSc)",
+      "ForAll(x, ForAll(d, (higher(d, MSc) ∧ has_degree(x, d)) → supervise_masters(x)))",
+      "ForAll(x, teach_graduate(x) → supervise_research(x))",
+      "has_degree(John, PhD)"
+    ],
+    "premises-NL": [
+      "If a professor has a PhD degree, they are qualified to teach graduate courses.",
+      "A doctoral degree (PhD) is higher than a Master's degree.",
+      "If a professor holds a degree higher than a Master's, they are eligible to supervise Master's students.",
+      "All professors qualified to teach graduate courses can also supervise graduate-level research.",
+      "Professor John holds a PhD degree."
+    ],
+    "questions": [
+      "Based on Professor John's qualifications, which capabilities does he have?\nA. Can teach graduate courses but cannot supervise research\nB. Can supervise Master's students but not graduate research\nC. Can both teach graduate courses and supervise research\nD. Needs additional certification to supervise",
+      "Can Professor John supervise graduate-level research based on his PhD qualification, according to the premises?"
+    ],
+    "answers": [
+      "C",
+      "No"
+    ],
+    "explanation": [
+      "Premise 5 states Professor John has a PhD, premise 1 confirms that a PhD qualifies him to teach graduate courses, and premise 4 states that those qualified to teach graduate courses can supervise graduate-level research, so John can do both, supporting option C. Option A is false because John can supervise research. Option B is false because he can supervise research. Option D is false because no additional certification is required.",
+      "Premise 5 confirms Professor John’s PhD, premise 1 establishes that a PhD qualifies him to teach graduate courses, and premise 4 confirms that teaching qualification enables him to supervise graduate-level research, so John can supervise research."
+    ]
+  },
+  {
+    "idx": [
+      [
+        2,
+        3,
+        7
+      ],
+      [
+        2,
+        3,
+        7
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, has_degree(x, MSc) → teach_undergrad(x))",
+      "ForAll(x, ForAll(d, (higher(d, MSc) ∧ has_degree(x, d)) → teach_undergrad(x)))",
+      "higher(PhD, MSc)",
+      "higher(MSc, BSc)",
+      "ForAll(a, ForAll(b, ForAll(c, (higher(a, b) ∧ higher(b, c)) → higher(a, c))))",
+      "ForAll(x, department_head(x) → (∃d, has_degree(x, d) ∧ higher(d, BSc)))",
+      "department_head(John) ∧ has_degree(John, PhD)"
+    ],
+    "premises-NL": [
+      "Lecturers with a Master's degree can teach undergraduate courses.",
+      "Lecturers with a degree higher than a Master's can teach undergraduate courses.",
+      "A PhD is higher than a Master's degree.",
+      "A Master's degree is higher than a Bachelor's degree.",
+      "If degree A is higher than degree B, and degree B is higher than degree C, then degree A is higher than degree C.",
+      "Department heads must hold a degree higher than a Bachelor's.",
+      "Dr. John is a department head with a PhD."
+    ],
+    "questions": [
+      "Based on Dr. John's qualifications, which statement is correct?\nA. He can teach undergraduate courses\nB. He qualifies as department head but cannot teach\nC. He needs a Master's degree to teach undergraduates\nD. His PhD is insufficient for teaching",
+      "Can Dr. John teach undergraduate courses, according to the premises?"
+    ],
+    "answers": [
+      "A",
+      "No"
+    ],
+    "explanation": [
+      "Premise 7 states Dr. John has a PhD, premise 3 confirms a PhD is higher than a Master’s, and premise 2 states that a degree higher than a Master’s qualifies a lecturer to teach undergraduate courses, so John can teach, supporting option A. Option B is false because John can teach. Option C is false because a PhD suffices without needing a Master’s. Option D is false because a PhD is sufficient.",
+      "Premise 7 confirms Dr. John has a PhD, premise 3 establishes that a PhD is higher than a Master’s, and premise 2 allows lecturers with a degree higher than a Master’s to teach undergraduate courses, so John can teach."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        2,
+        3,
+        4
+      ],
+      [
+        1,
+        2,
+        3,
+        4
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, ForAll(h, (clinical_hours(x, h) ∧ h ≥ 500) → advanced_practice(x)))",
+      "clinical_hours(john, 600)",
+      "registered_nurse(john)",
+      "ForAll(x, (registered_nurse(x) ∧ advanced_practice(x)) → can_prescribe(x))"
+    ],
+    "premises-NL": [
+      "Completing 500 clinical hours grants Advanced Practice certification.",
+      "Nurse John has completed 600 clinical hours.",
+      "John is a registered nurse.",
+      "All registered nurses with Advanced Practice certification are authorized to prescribe medication."
+    ],
+    "questions": [
+      "Based on Nurse John's qualifications, which statement is correct?\nA. He can prescribe medication\nB. He needs more clinical hours\nC. He isn't registered\nD. He can't prescribe without additional certification",
+      "Can Nurse John prescribe medication, according to the premises?"
+    ],
+    "answers": [
+      "A",
+      "Yes"
+    ],
+    "explanation": [
+      "Premise 2 states John completed 600 clinical hours, satisfying premise 1’s requirement of 500 hours for Advanced Practice certification. Premise 3 confirms John is a registered nurse, and premise 4 states that registered nurses with Advanced Practice certification can prescribe medication, so John can prescribe, supporting option A. Option B is false because 600 hours exceed 500. Option C is false because John is registered. Option D is false because Advanced Practice certification is sufficient.",
+      "Premise 2 confirms John’s 600 clinical hours, meeting premise 1’s 500-hour threshold for Advanced Practice certification. Premise 3 establishes John as a registered nurse, and premise 4 allows registered nurses with certification to prescribe medication, so John can prescribe."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        2,
+        3,
+        4
+      ],
+      [
+        1,
+        2,
+        3,
+        4
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, (has_card(x) ∧ safety_orientation(x)) → use_equipment(x))",
+      "ForAll(x, (use_equipment(x) ∧ has_trainer(x)) → book_training(x))",
+      "ForAll(x, (membership_duration(x) ≥ 6) → eligible_trainer(x))",
+      "ForAll(x, paid_annual_fee(x) → valid_membership(x))"
+    ],
+    "premises-NL": [
+      "Alex has a valid membership card.",
+      "Alex has completed safety orientation.",
+      "Alex has a membership duration of 8 months.",
+      "Alex has paid annual fees on time."
+    ],
+    "questions": [
+      "Based on Alex's status, which statement is correct?\nA. Alex can use equipment but can't book training\nB. Alex can book personal training sessions\nC. Alex needs longer membership duration\nD. Alex must pay additional fees",
+      "Does the logical sequence demonstrate that Alex meets all requirements for booking training sessions?"
+    ],
+    "answers": [
+      "B",
+      "Yes"
+    ],
+    "explanation": [
+      "Alex has a valid card (1) and completed orientation (2), so he can use equipment via the first rule. He also has 8 months of membership (3), making him eligible for trainer assignment. Although the premise does not state explicitly that a trainer has been assigned, the question assumes it as true for the context of checking qualification. Therefore, he can book training.",
+      "Yes, because Alex meets the prerequisites: use of equipment (1+2), duration (3), and paid fees (4) ensure valid membership and trainer eligibility, satisfying all logical conditions for booking personal training sessions."
+    ]
+  },
+  {
+    "idx": [
+      [
+        3,
+        7
+      ],
+      [
+        3,
+        7
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, (science_program(x) ∧ passed(x, Chem101)) → can_enroll(x, OrganicChem))",
+      "ForAll(x, (enrolled(x, OrganicChem) ∧ completed(x, LabSafety)) → lab_access(x))",
+      "ForAll(x, completed(x, OrganicChem) → can_take(x, Biochemistry))",
+      "ForAll(a, ForAll(b, ForAll(c, (prereq(a, b) ∧ prereq(b, c)) → prereq(a, c))))",
+      "science_program(Minh)",
+      "passed(Minh, Chem101)",
+      "completed(Minh, OrganicChem)",
+      "completed(Minh, LabSafety)"
+    ],
+    "premises-NL": [
+      "If a student is enrolled in a science program and has passed Chemistry 101, they can enroll in Organic Chemistry.",
+      "If a student is enrolled in Organic Chemistry and has completed Lab Safety Certification, they can access the advanced lab.",
+      "All students who complete Organic Chemistry can take Biochemistry.",
+      "If course X is a prerequisite for course Y, and course Y is a prerequisite for course Z, then course X is a prerequisite for course Z.",
+      "Minh is enrolled in a science program.",
+      "Minh passed Chemistry 101.",
+      "Minh completed Organic Chemistry.",
+      "Minh completed Lab Safety Certification."
+    ],
+    "questions": [
+      "Based on Minh's academic progress, which of the following is logically supported?\nA. Minh has met the criteria to pursue Biochemistry\nB. Minh cannot take Biochemistry without Lab Safety Certification\nC. Minh is not eligible to enroll in Organic Chemistry\nD. Minh needs to repeat Chemistry 101",
+      "Does Minh qualify to take Biochemistry based on her completed coursework, according to the premises?"
+    ],
+    "answers": [
+      "A",
+      "No"
+    ],
+    "explanation": [
+      "Premise 7 states Minh completed Organic Chemistry, and premise 3 states that completing Organic Chemistry allows taking Biochemistry, so Minh has met the criteria to pursue Biochemistry, supporting option A. Option B is false because Lab Safety Certification isn’t required for Biochemistry. Option C is false because Minh’s science program enrollment and Chemistry 101 pass make her eligible for Organic Chemistry. Option D is false because Minh has passed Chemistry 101.",
+      "Premise 7 states Minh completed Organic Chemistry, and premise 3 states that completing Organic Chemistry qualifies a student to take Biochemistry, so Minh qualifies based on her coursework."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        6
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, UpdateEmail(x))",
+      "ForAll(x, Trained(x))",
+      "ForAll(x, UpdateEmail(x) → Paid(x))",
+      "ForAll(x, Questionnaire(x))",
+      "ForAll(x, SubmittedPaper(x))",
+      "ForAll(x, UpdateEmail(x) → Registered(x))"
+    ],
+    "premises-NL": [
+      "Everyone will receive an update email.",
+      "Everyone is trained.",
+      "If someone receives an update email, then they have paid.",
+      "Everyone has completed the questionnaire.",
+      "Everyone has submitted a paper.",
+      "If someone receives an update email, then they are registered."
+    ],
+    "questions": [
+      "Have all employees paid?",
+      "Are all employees registered?"
+    ],
+    "answers": [
+      "Yes",
+      "Yes"
+    ],
+    "explanation": [
+      "Premise 1 states everyone receives an update email, and premise 3 states that receiving an update email implies having paid, so all employees have paid.",
+      "Premise 1 states everyone receives an update email, and premise 6 states that receiving an update email implies being registered, so all employees are registered."
+    ]
+  },
+  {
+    "idx": [
+      [
+        5,
+        6
+      ],
+      [
+        1,
+        2,
+        4
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(x, ResearchBackground(x) → StrongQualifications(x))",
+      "ForAll(x, StrongQualifications(x) → SeniorRoleSuitability(x))",
+      "ForAll(x, DevelopmentProgram(x))",
+      "ForAll(x, ResearchBackground(x))",
+      "ForAll(x, PromotionEligible(x) → Bonus(x))",
+      "ForAll(x, PromotionEligible(x))"
+    ],
+    "premises-NL": [
+      "If a person has a research background, then they have strong qualifications.",
+      "If a person has strong qualifications, then they are suitable for a senior role.",
+      "Every person is enrolled in the company’s development program.",
+      "Every person has a research background.",
+      "If a person is eligible for a promotion, then they will receive a bonus.",
+      "Everyone is eligible for a promotion."
+    ],
+    "questions": [
+      "Do all employees receive a bonus?",
+      "Are all employees suitable for a senior role?"
+    ],
+    "answers": [
+      "Yes",
+      "Yes"
+    ],
+    "explanation": [
+      "Premise 6 states everyone is eligible for a promotion, and premise 5 states that promotion eligibility implies receiving a bonus, so all employees receive a bonus.",
+      "Premise 4 states everyone has a research background, premise 1 states a research background implies strong qualifications, and premise 2 states strong qualifications imply senior role suitability, so all employees are suitable for a senior role."
+    ]
+  },
+  {
+    "idx": [
+      [
+        2,
+        10
+      ],
+      [
+        6,
+        7,
+        9
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(s, ForAll(m, (attendance(s,m) ≥ 80) → allowed_exam(s,m)))",
+      "ForAll(s, ForAll(m, (allowed_exam(s,m) ∧ completes_exam(s,m)) → can_pass(s,m)))",
+      "ForAll(s, ForAll(m, ¬pass(s,m) → retake(s,m)))",
+      "ForAll(m, requires_assignment(m) → ForAll(s, completes_assignment(s,m) ∨ takes_exam(s,m)))",
+      "ForAll(s, ForAll(m, (attendance(s,m) < 50) → ¬allowed_exam(s,m)))",
+      "ForAll(s, (∃m1, ∃m2, ∃m3, m1 ≠ m2 ∧ m2 ≠ m3 ∧ m1 ≠ m3 ∧ grade(s,m1) > 8.5 ∧ grade(s,m2) > 8.5 ∧ grade(s,m3) > 8.5) → scholarship(s))",
+      "ForAll(s, ForAll(m, (takes_exam(s,m) ∧ score(s,m) < passing_score) → ¬pass(s,m)))",
+      "ForAll(s, ForAll(m, (attendance(s,m) = 100 ∧ ¬completes_exam(s,m)) → ¬pass(s,m)))",
+      "ForAll(s, (∃m1, ∃m2, ∃m3, m1 ≠ m2 ∧ m2 ≠ m3 ∧ m1 ≠ m3 ∧ pass(s,m1) ∧ pass(s,m2) ∧ pass(s,m3) ∧ required(m1) ∧ required(m2) ∧ required(m3)) → graduate(s))",
+      "ForAll(s, ForAll(m, (attendance(s,m) < 50 ∧ completes_assignment(s,m) ∧ professor_approval(s,m)) → allowed_exam(s,m)))"
+    ],
+    "premises-NL": [
+      "If a student attends at least 80% of classes, they will be allowed to take the final exam.",
+      "If a student is allowed to take the final exam and completes the exam, they can pass the course.",
+      "If a student fails to pass the course, they must retake the course.",
+      "If a course requires a major assignment, the student must complete the major assignment or take the final exam.",
+      "If a student attends less than 50% of classes, they will not be allowed to take the final exam.",
+      "If a student completes 3 courses with a score above 8.5, they will receive a scholarship.",
+      "If a student takes the exam but scores below the passing threshold, they will not pass the course.",
+      "If a student attends all classes but does not complete the exam, they cannot pass the course.",
+      "If a student passes 3 required courses, they will graduate.",
+      "If a student attends less than 50% of the classes but completes the assignment and gets professor approval, they can take the exam."
+    ],
+    "questions": [
+      "Based on the premises, which conclusion is logically valid?\nA. A student with low attendance, assignment completion, and professor approval can pass the course if they complete the exam.\nB. A student with less than 80% attendance who doesn’t complete the assignment can still take the exam.\nC. A student with 60% attendance and a scholarship automatically passes all courses.\nD. A student who attends every class but doesn’t complete the exam can still pass.",
+      "Is it true that a student who completes 3 courses with scores above 8.5 will graduate, according to the premises?"
+    ],
+    "answers": [
+      "A",
+      "No"
+    ],
+    "explanation": [
+      "Premise 10 states that a student with less than 50% attendance who completes the assignment and has professor approval can take the exam, and premise 2 states that taking and completing the exam allows passing the course, supporting option A. Option B is false because low attendance without assignment completion prevents exam eligibility per premise 5. Option C is false because a scholarship doesn’t ensure passing per premises 2 and 7. Option D is false because full attendance without exam completion prevents passing per premise 8.",
+      "Premise 6 states that completing three courses with scores above 8.5 leads to a scholarship, but premise 9 requires passing three required courses to graduate, and premise 7 shows that exams can be failed despite high effort, so high scores don’t guarantee graduation, and the answer is No."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        2,
+        4,
+        7,
+        8
+      ],
+      [
+        7,
+        8
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(s, (study(s,'PoliticalTheory') > 12) → understand(s,'PoliticalIdeologies'))",
+      "ForAll(s, understand(s,'PoliticalIdeologies') → analyze(s,'GovernmentPolicies'))",
+      "ForAll(s, analyze(s,'GovernmentPolicies') → (debate(s) ∨ write_essay(s)))",
+      "ForAll(s, ¬debate(s) → write_essay(s))",
+      "ForAll(s, (study(s,'PoliticalTheory') < 6) → struggle(s,'PoliticalIdeologies'))",
+      "ForAll(s, professor_requires(s,'Debate') → (debate(s) ∨ justified_reason(s)))",
+      "ForAll(s, (write_essay(s) ∧ high_quality(s)) → academic_recognition(s))",
+      "ForAll(s, (academic_recognition(s) ∧ field(s,'PoliticalStudies')) → qualify_fellowship(s))",
+      "ForAll(p, controversial(p) → ForAll(s, must_analyze(s,p)))",
+      "ForAll(s, (¬debate(s) ∧ ¬write_essay(s)) → fail(s,'PoliticalTheory'))"
+    ],
+    "premises-NL": [
+      "If a student studies political theory for more than 12 hours, they will understand fundamental political ideologies.",
+      "If a student understands fundamental political ideologies, they can critically analyze government policies.",
+      "If a student can critically analyze government policies, they will either participate in debates or write analytical essays.",
+      "If a student does not participate in debates, they must write analytical essays.",
+      "If a student studies less than 6 hours, they will struggle to understand fundamental political ideologies.",
+      "If a professor requires participation in debates, students must either debate or provide a justified reason for not doing so.",
+      "If a student writes an analytical essay with high quality, they will receive academic recognition.",
+      "If a student receives academic recognition in political studies, they may qualify for a research fellowship.",
+      "If a government policy is controversial, students must analyze it in their coursework.",
+      "If a student avoids both debates and writing essays, they will fail the political theory course."
+    ],
+    "questions": [
+      "Based on the premises, which conclusion is correct?\nA. A student who studies >12 hours, doesn’t debate, and writes a high-quality essay in political studies can qualify for a fellowship\nB. A student studying <6 hours who avoids both debates and essays will pass\nC. Understanding ideologies without policy analysis leads to automatic recognition\nD. All students must participate in debates regardless of their study hours",
+      "Does writing a high-quality analytical essay guarantee qualification for a research fellowship, according to the premises?"
+    ],
+    "answers": [
+      "A",
+      "No"
+    ],
+    "explanation": [
+      "For a student studying political theory over 12 hours, premise 1 ensures understanding of ideologies, and premise 2 grants policy analysis ability. If they don’t debate, premise 4 requires an essay. A high-quality essay, per premise 7, earns academic recognition, and premise 8 allows fellowship qualification if in political studies, supporting option A. Option B is false because premise 10 ensures failure for avoiding debates and essays. Option C is false because premise 2 requires policy analysis. Option D is false because premise 4 allows essays instead of debates.",
+      "Premise 7 states a high-quality essay leads to academic recognition, but premise 8 requires the recognition to be in political studies for fellowship qualification. Since the field is not guaranteed, a high-quality essay does not ensure a fellowship."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        2,
+        4,
+        7,
+        8
+      ],
+      [
+        4,
+        7,
+        8
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(s, (study(s,quantum_mechanics) ≥ 15) → understand(s,superposition))",
+      "ForAll(s, understand(s,superposition) → explain(s,quantum_measurement))",
+      "ForAll(s, explain(s,quantum_measurement) → (write_paper(s) ∨ give_presentation(s)))",
+      "ForAll(s, ¬give_presentation(s) → write_paper(s))",
+      "ForAll(s, (study(s,quantum_mechanics) < 8) → struggle(s,superposition))",
+      "ForAll(s, professor_requires(s,presentation) → (give_presentation(s) ∨ justified_reason(s)))",
+      "ForAll(s, (write_paper(s) ∧ original_work(s)) → academic_recognition(s))",
+      "ForAll(s, (academic_recognition(s) ∧ field(s,quantum_mechanics)) → qualify_scholarship(s))",
+      "ForAll(e, experiment(e,entanglement) → ForAll(s, must_analyze(s,e)))",
+      "ForAll(s, (¬write_paper(s) ∧ ¬give_presentation(s)) → fail(s,quantum_mechanics))"
+    ],
+    "premises-NL": [
+      "Mastery of quantum superposition requires at least 15 hours of dedicated study.",
+      "A solid understanding of superposition enables clear explanations of quantum measurement.",
+      "Those who can explain quantum measurement contribute by either writing research papers or giving presentations.",
+      "Failure to give a presentation leaves research papers as the only viable option for contribution.",
+      "Limited exposure (less than 8 hours) to quantum mechanics leads to difficulties in grasping superposition.",
+      "When a professor mandates presentations, students must comply or justify their refusal.",
+      "Original analytical work in research papers leads to academic recognition.",
+      "Academic recognition in quantum mechanics opens the possibility of an advanced physics scholarship.",
+      "Quantum entanglement experiments must be critically analyzed as part of coursework.",
+      "Neglecting both research papers and presentations results in failing the quantum mechanics course."
+    ],
+    "questions": [
+      "Based on the premises, which conclusion is correct?\nA. A student mastering superposition who writes an original research paper in quantum mechanics qualifies for a scholarship\nB. Limited study time (<8h) doesn’t impair superposition understanding\nC. Merely explaining quantum measurement guarantees recognition\nD. All students must analyze entanglement regardless of their expertise",
+      "Is producing original research while avoiding presentations sufficient to qualify for a scholarship, according to the premises?"
+    ],
+    "answers": [
+      "A",
+      "No"
+    ],
+    "explanation": [
+      "A student studying 15 or more hours masters superposition (premise 1) and can explain quantum measurement (premise 2). If they avoid presentations, premise 4 requires a research paper. An original paper earns academic recognition (premise 7), and recognition in quantum mechanics qualifies for a scholarship (premise 8), supporting option A. Option B is false because premise 5 ensures struggle with less than 8 hours. Option C is false because premise 7 requires original work for recognition. Option D is false because premise 9 requires an entanglement experiment.",
+      "Avoiding presentations requires writing a paper (premise 4). An original paper leads to academic recognition (premise 7), but scholarship qualification requires recognition in quantum mechanics (premise 8). Since the field is not guaranteed, original research without presentations is not sufficient."
+    ]
+  },
+  {
+    "idx": [
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        13
+      ],
+      [
+        11,
+        12,
+        13,
+        14
+      ]
+    ],
+    "premises-FOL": [
+      "∀s (UnderstandsDuality(s) → GraspsSuperposition(s))",
+      "∀s ((ComprehendsMeasurement(s) ∨ UnderstandsCollapse(s)) → MastersSuperposition(s))",
+      "∀s (UnderstandsCollapse(s) → CritiquesInterp(s))",
+      "∀s (CritiquesInterp(s) → FamiliarSchrodinger(s))",
+      "∀s (ProficientSchrodinger(s) → SolvesTunneling(s))",
+      "∀s (SolvesTunneling(s) → EngagesQuantumComp(s))",
+      "∀s (EngagesQuantumComp(s) → ExploresEntanglement(s))",
+      "∀s (AnalyzesBell(s) → GraspsEntanglement(s))",
+      "∀s (AnalyzesBell(s) → AssessesRealism(s))",
+      "∀s (AssessesRealism(s) → WellPreparedResearch(s))",
+      "∀s (WellPreparedResearch(s) → (Publishes(s) ∨ GivesSeminar(s)))",
+      "∀s ((¬Publishes(s) ∧ ¬GivesSeminar(s)) → ¬AcademicContribution(s))",
+      "∀s (SecuresPosition(s) → AcademicContribution(s))",
+      "∀s (SecuresPosition(s) → AccessLab(s))"
+    ],
+    "premises-NL": [
+      "A student who understands wave-particle duality can grasp the principle of quantum superposition.",
+      "Mastery of quantum superposition is necessary to comprehend quantum measurement and wavefunction collapse.",
+      "A deep understanding of wavefunction collapse enables a student to critique interpretations of quantum mechanics.",
+      "Critiquing quantum interpretations requires familiarity with Schrödinger's equation and its implications.",
+      "A student proficient in Schrödinger's equation can solve problems in quantum tunneling.",
+      "Successful application of quantum tunneling concepts allows engagement with quantum computing fundamentals.",
+      "A student engaging with quantum computing will explore qubit manipulation and entanglement.",
+      "A solid grasp of entanglement is required to analyze Bell's theorem.",
+      "Students who analyze Bell's theorem can assess quantum nonlocality and realism debates.",
+      "A student who can evaluate quantum realism debates is well-prepared for advanced research discussions.",
+      "A well-prepared researcher can contribute original perspectives through publications or seminars.",
+      "Avoiding both publications and seminars results in a lack of academic contribution.",
+      "Academic contribution in quantum physics is a criterion for securing a research position.",
+      "A student securing a research position gains access to specialized quantum laboratories."
+    ],
+    "questions": [
+      "Based on the premises, which conclusion is correct?\nA. A student who develops through the quantum theory chain, from duality to advanced research preparation, can make academic contributions through publication or seminar\nB. Laboratory access is independent of publication/seminar participation\nC. Interpretation critique alone qualifies for research positions\nD. Understanding wave-particle duality guarantees lab access",
+      "According to the premises, is the following statement true?\nStatement: A student who reaches advanced research preparation but avoids both publication and seminar opportunities will still qualify for laboratory access"
+    ],
+    "answers": [
+      "A",
+      "No"
+    ],
+    "explanation": [
+      "Premises 1–11 form a logical progression from wave-particle duality to academic contribution. A student following this chain can contribute via publication or seminar, satisfying A. Other options make incorrect assumptions.",
+      "Avoiding both publication and seminar violates P11 and P12, meaning the student fails to make academic contributions. Without this, P13 is blocked, hence no lab access via P14. So the answer is False."
+    ]
+  },
+  {
+    "idx": [
+      [
+        2,
+        4
+      ],
+      [
+        1,
+        8,
+        9
+      ]
+    ],
+    "premises-FOL": [
+      "ForAll(s, ForAll(t, Retention(s,t) = e^(-t/S)))",
+      "ForAll(s, use_spaced_repetition(s) → better_memory_retention(s))",
+      "ForAll(s, ForAll(m, sleep_well(s) ∧ review_material(s,m) → stronger_memory_connections(s,m)))",
+      "ForAll(s, ForAll(f, use_flashcards(s,f) → higher_retention_rate(s,f)))",
+      "ForAll(s, ForAll(m, ReviewBeforeForgetting(s,m) → HigherMemoryEfficiency(s,m)))",
+      "ForAll(s, ForAll(m, self_test(s,m) → (activate_hippocampus(s) ∧ improve_recall(s,m))))",
+      "ForAll(s, ForAll(m, encounter_different_contexts(s,m) → higher_long_term_retention(s,m)))",
+      "ForAll(s, ForAll(m, too_short_intervals(s,m) → inefficient_learning(s,m)))",
+      "ForAll(s, ForAll(m, too_long_intervals(s,m) → high_forgetting_rate(s,m)))",
+      "ForAll(s, ForAll(m, ai_personalized_schedule(s,m) → most_efficient_learning(s,m)))"
+    ],
+    "premises-NL": [
+      "Ebbinghaus' forgetting curve formula: R = e^(-t/S), where R is retention rate, t is elapsed time, and S is review interval.",
+      "A learning algorithm based on spaced repetition can adjust review intervals based on individual proficiency.",
+      "Adequate sleep enhances memory consolidation after each review session.",
+      "Creating flashcards with concise questions improves retention compared to passive reading.",
+      "Reviewing just before forgetting significantly boosts memory efficiency.",
+      "Neuroscience studies show self-testing activates the hippocampus, enhancing information recall.",
+      "Encountering knowledge in various contexts improves retention compared to monotonous repetition.",
+      "Too short review intervals reduce retention due to lack of time for consolidation.",
+      "Too long review intervals risk forgetting most of the material before review.",
+      "AI can personalize study schedules, optimizing memory retention for each student based on their progress."
+    ],
+    "questions": [
+      "Based on the learning science principles, which statement is correct?\nA. Spaced repetition improves both memory and academic performance\nB. Excessively long intervals preserve knowledge without review\nC. AI cannot optimize study schedules for memory retention\nD. Passive reading is more effective than active recall",
+      "Which of these conclusions is supported by the forgetting curve research?\nA. Review timing has no impact on retention\nB. Optimal intervals prevent both premature review and excessive forgetting\nC. Sleep has no effect on memory consolidation\nD. All learning methods yield identical results"
+    ],
+    "answers": [
+      "A",
+      "B"
+    ],
+    "explanation": [
+      "Premise 2 states spaced repetition improves memory retention, and premise 4 confirms active recall via flashcards enhances retention over passive reading. Improved retention plausibly boosts academic performance, supporting option A. Option B is false because premise 9 shows long intervals increase forgetting. Option C is false because premise 10 confirms AI optimizes schedules. Option D is false because premise 4 prioritizes active recall.",
+      "Premise 1’s forgetting curve shows retention depends on review interval timing. Premise 8 indicates too-short intervals harm consolidation, and premise 9 shows too-long intervals lead to forgetting, implying optimal intervals balance both, supporting option B. Option A is false because timing impacts retention. Option C is false because premise 3 links sleep to consolidation. Option D is false because premise 4 shows method differences."
+    ]
+  }
+]
