@@ -9,22 +9,40 @@ from .schemas import AnswerRequest
 MCQ_ANSWER_RE = re.compile(r"^[A-Z]$")
 YESNO_SET = {"yes", "no", "uncertain"}
 
+MCQ_OPTION_LINE_RE = re.compile(
+    r"(?im)^\s*(?:[A-D][\.\)\:\-]|\([A-D]\))\s+"
+)
+
+YESNO_QUESTION_RE = re.compile(
+    r"(?i)^\s*(does|do|did|is|are|was|were|can|could|will|would|should|has|have|had)\b"
+)
+
 
 def infer_question_kind(question: str) -> str:
     q = question or ""
-    if re.search(r"(?m)^\s*[A-Z]\s*\.\s+", q):
+
+    # Cần ít nhất 2 option để tránh match nhầm.
+    if len(MCQ_OPTION_LINE_RE.findall(q)) >= 2:
         return "multiple_choice"
-    return "yes_no"
+
+    if YESNO_QUESTION_RE.search(q):
+        return "yes_no"
+
+    return "open"
 
 
 def infer_answer_kind(answer: Any) -> str:
     if answer is None:
         return "unknown"
+
     s = str(answer).strip()
+
     if s.lower() in YESNO_SET:
         return "yes_no"
+
     if MCQ_ANSWER_RE.match(s):
         return "multiple_choice"
+
     return "open"
 
 

@@ -50,10 +50,17 @@ def validate_compiler_ir(data: dict[str, Any]) -> ValidationResult:
             errors.append(f"premise_{i}_predicate_contains_space")
 
     question = data.get("question", {})
+
     if question and not isinstance(question, dict):
         errors.append("question_must_be_object")
         question = {}
-    qtype = question.get("type") or data.get("question_type")
+
+    qtype = (
+        question.get("type")
+        or data.get("question_type")
+        or data.get("kind")
+    )
+
     if qtype not in {None, "multiple_choice", "yes_no", "open"}:
         warnings.append(f"unknown_question_type:{qtype}")
 

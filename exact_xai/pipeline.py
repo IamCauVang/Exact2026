@@ -567,16 +567,27 @@ class AnswerPipeline:
                     query_k = parsed.choices.get(k, "")
                     used_cost = len(rr_k.used_premises)
 
-                    # Special handling for "fewest premises" questions.
-                    # Prefer a direct premise or direct contrapositive over a longer
-                    # proof path that only becomes true via chained implications.
                     if "fewest premise" in question_l or "fewest premises" in question_l:
                         direct_cost = _direct_rule_or_contraposition_cost(query_k, reasoner.kb)
-                        if direct_cost is not None:
-                            used_cost = min(used_cost or direct_cost, direct_cost)
-                        return (used_cost, _query_complexity_penalty(query_k), len(rr_k.proof), k)
 
-                    return (_semantic_choice_penalty(query_k, req.question), used_cost, len(rr_k.proof), _query_complexity_penalty(query_k), k)
+                        direct_rank = 0 if direct_cost is not None else 1
+                        effective_cost = direct_cost if direct_cost is not None else used_cost
+
+                        return (
+                            direct_rank,
+                            effective_cost,
+                            _query_complexity_penalty(query_k),
+                            len(rr_k.proof),
+                            k,
+                        )
+
+                    return (
+                        _semantic_choice_penalty(query_k, req.question),
+                        used_cost,
+                        len(rr_k.proof),
+                        _query_complexity_penalty(query_k),
+                        k,
+                    )
 
                 chosen = sorted(yes_options, key=_choice_score)[0]
                 rr = option_results[chosen]

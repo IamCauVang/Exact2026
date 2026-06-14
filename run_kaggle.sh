@@ -6,6 +6,7 @@ INPUT_MODE="${INPUT_MODE:-auto}"
 BATCH_SIZE="${BATCH_SIZE:-0}"
 LIMIT="${LIMIT:-}"
 SUBSET_N="${SUBSET_N:-}"
+SUBSET_START="${SUBSET_START:-0}"
 SUBSET_SOURCE="${SUBSET_SOURCE:-data/full_data.json}"
 SUBSET_OUT="${SUBSET_OUT:-}"
 CASE_IDS="${CASE_IDS:-}"
@@ -61,12 +62,12 @@ KAGGLE_URL="https://www.kaggle.com/code/${KERNEL}"
 
 if [ -n "$SUBSET_N" ]; then
   if [ -z "$SUBSET_OUT" ]; then
-    SUBSET_OUT="data/full_data_${SUBSET_N}q.json"
+    SUBSET_OUT="data/full_data_start${SUBSET_START}_${SUBSET_N}q.json"
   fi
 
   echo "[$(elapsed)] [subset] Create ${SUBSET_OUT} from ${SUBSET_SOURCE} with ${SUBSET_N} questions"
 
-  python - "$SUBSET_SOURCE" "$SUBSET_OUT" "$SUBSET_N" <<'PY_SUBSET'
+  python - "$SUBSET_SOURCE" "$SUBSET_OUT" "$SUBSET_N" "$SUBSET_START" <<'PY_SUBSET'
 import json
 import sys
 from pathlib import Path
@@ -74,27 +75,43 @@ from pathlib import Path
 src = Path(sys.argv[1])
 out = Path(sys.argv[2])
 n = int(sys.argv[3])
+start = int(sys.argv[4])
 
 records = json.loads(src.read_text(encoding="utf-8"))
 
 picked = []
 remaining = n
 
+picked = []
+remaining = n
+seen_questions = 0
+
 for item in records:
     qs = item.get("questions", [])
     if not qs:
         continue
 
-    take = min(remaining, len(qs))
+    q_count = len(qs)
+
+    if seen_questions + q_count <= start:
+        seen_questions += q_count
+        continue
+
+    local_start = max(0, start - seen_questions)
+    available = q_count - local_start
+    take = min(remaining, available)
+
     new_item = dict(item)
 
     for key in ("questions", "answers", "explanation", "idx"):
         value = item.get(key)
-        if isinstance(value, list) and len(value) == len(qs):
-            new_item[key] = value[:take]
+        if isinstance(value, list) and len(value) == q_count:
+            new_item[key] = value[local_start:local_start + take]
 
     picked.append(new_item)
+
     remaining -= take
+    seen_questions += q_count
 
     if remaining <= 0:
         break
